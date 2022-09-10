@@ -1,5 +1,5 @@
 .element__container-bottom {
-    margin: 0 auto 0;
+    margin: 4px auto 0;
     max-width: 246px;
     display: flex;
     flex-direction: row;

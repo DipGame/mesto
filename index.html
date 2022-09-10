@@ -12,7 +12,7 @@
 <div class="page">
       <header class="header">
         <img class="header__logo" src="./images/Vector.svg" alt="Россия">
-        <img class="header__line" src="./images/Line.svg" alt="Линия">
+        <div class="header__line"></div>
       </header>
 
 
@@ -23,7 +23,7 @@
             <p class="profile__name">Жак-Ив Кусто<img class="profile__edit-button" src="./images/Edit Button.svg" alt="Редактировать"></p>
             <p class="profile__profession">Исследователь океана</p>
           </div>
-          <img class="profile__add-button" src="./images/Add Button.svg" alt="Добавить">
+          <div class="profile__add-button"></div>
         </section>
 
         <section class="elements">
@@ -31,42 +31,42 @@
             <img class="element__image" src="./images/karachaevsk1.jpg" alt="Картинка">
             <div class="element__container-bottom">
               <h1 class="element__title">Карачаевск</h1>
-              <img class="element__like" src="./images/like.svg" alt="Линия">
+              <div class="element__like"></div>
             </div>
           </div>
           <div class="element">
             <img class="element__image" src="./images/elbrus1.png" alt="Картинка">
             <div class="element__container-bottom">
               <h1 class="element__title">Гора Эльбрус</h1>
-              <img class="element__like" src="./images/like.svg" alt="Линия">
+              <div class="element__like"></div>
             </div>
           </div>
           <div class="element">
             <img class="element__image" src="./images/dombay1.png" alt="Картинка">
             <div class="element__container-bottom">
               <h1 class="element__title">Домбай</h1>
-              <img class="element__like" src="./images/like.svg" alt="Линия">
+              <div class="element__like"></div>
             </div>
           </div>
           <div class="element">
             <img class="element__image" src="./images/elbrus2.png" alt="Картинка">
             <div class="element__container-bottom">
               <h1 class="element__title">Гора Эльбрус</h1>
-              <img class="element__like" src="./images/like.svg" alt="Линия">
+              <div class="element__like"></div>
             </div>
           </div>
           <div class="element">
             <img class="element__image" src="./images/dombay2.png" alt="Картинка">
             <div class="element__container-bottom">
               <h1 class="element__title">Домбай</h1>
-              <img class="element__like" src="./images/like.svg" alt="Линия">
+              <div class="element__like"></div>
             </div>
           </div>
           <div class="element">
             <img class="element__image" src="./images/karachaevsk2.jpg" alt="Картинка">
             <div class="element__container-bottom">
               <h1 class="element__title">Карачаево-Ч...</h1>
-              <img class="element__like" src="./images/like.svg" alt="Линия">
+              <div class="element__like"></div>
             </div>
           </div>
         </section>
@@ -77,5 +77,19 @@
         <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
       </footer>
   </div>
+
+  <section class="overlay">
+    <div class="popup">
+      <button class="popup__close-button">
+        <img class="popup__close__close-button-icon" src="./images/Close Icon.svg">
+      </button>
+      <h2 class="popup__title">Редактировать профиль</h2>
+      <p class="popup__name">Жак-Ив Кусто</p>
+      <p class="popup__profession">Исследователь океана</p>
+      <button class="popup__save-button">Сохранить</button>
+    </div>
+  </section>
+
+  <script src="./scripts/main.js"></script>
 </body>
 </html>

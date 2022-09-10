@@ -1,0 +1,23 @@
+.popup__name {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    margin-left: 36px;
+    border-bottom: 1px solid #000000;
+    width: 358px;
+    padding-bottom: 10px;
+    margin-top: 28px;
+}
+
+@media (max-width: 669px) {
+    .popup__name {
+        font-size: 14px;
+        line-height: 17px;
+        width: 238px;
+        margin-left: 22px;
+        margin-top: 60px;
+        padding-bottom: 8px;
+    }
+}

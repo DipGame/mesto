@@ -5,3 +5,11 @@
     font-family: 'Inter', Arial, Helvetica, sans-serif;
     font-weight: 400;
 }
+
+@media (max-width: 669px) {
+    .profile__profession {
+        font-size: 14px;
+        line-height: 17px;
+        text-align: center;
+    }
+}

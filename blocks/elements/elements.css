@@ -7,3 +7,9 @@
     justify-content: space-between;
     justify-items: center;
 }
+
+@media (max-width: 669px) {
+    .elements {
+        margin: 38px auto 0;
+    }
+}
