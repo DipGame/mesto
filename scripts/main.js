@@ -14,7 +14,3 @@ openPopupButton.addEventListener('click', () => {
 closePopupButton.addEventListener('click', () => {
     toggleOverlay();
 })
-
-savePopupButton.addEventListener('click', () => {
-    toggleOverlay();
-})
