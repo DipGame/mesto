@@ -1,6 +1,8 @@
 .profile__add-button {
     background-size: cover;
     min-height: 50px;
+    background-color: transparent;
+    border: 0;
 }
 
 .profile__add-button:hover {
@@ -10,7 +12,7 @@
 
 @media (min-width: 670px) {
     .profile__add-button {
-        margin: 36px 0 auto auto;
+        margin: 33px 0 auto auto;
         background-image: url(/images/Add\ Button.svg);
         min-width: 150px;
     }

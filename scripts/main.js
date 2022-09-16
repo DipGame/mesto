@@ -1,30 +1,36 @@
-const overlayEl = document.querySelector('.overlay');
-const popupName = overlayEl.querySelector('.popup__name');
-const popupProf = overlayEl.querySelector('.popup__profession');
-const openPopupButton = document.querySelector('.profile__edit-button');
-const closePopupButton = document.querySelector('.popup__close-button');
-const savePopupButton = overlayEl.querySelector('.popup__save-button');
+let overlayEl = document.querySelector('.overlay');
+let popupName = overlayEl.querySelector('input[name="name"]');
+let popupProf = overlayEl.querySelector('input[name="profession"]');
+let openPopupButton = document.querySelector('.profile__edit-button');
+let closePopupButton = document.querySelector('.popup__close-button');
+let savePopupButton = overlayEl.querySelector('.popup__save-button');
 
-let profile = document.querySelector('.profile');
-let profileName = profile.querySelector(".profile__name");
-let profileProf = profile.querySelector(".profile__profession");
 
-const toggleOverlay = () => {
-    overlayEl.classList.toggle('overlay__open');
+
+let toggleOverlay = () => {
+    overlayEl.classList.toggle('overlay_open');
 }
 
-openPopupButton.addEventListener('click', () => {
-    toggleOverlay();
-})
+openPopupButton.addEventListener('click', toggleOverlay);
 
-closePopupButton.addEventListener('click', () => {
-    toggleOverlay();
-})
+closePopupButton.addEventListener('click', toggleOverlay);
 
-savePopupButton.addEventListener('click', () => {
-    profileName.textContent = popupName.value;
-    profileProf.textContent = popupProf.value;
-    toggleOverlay();
-})
 
-overlayEl.addEventListener('submit', savePopupButton);
+
+function formSubmitHandler (evt) {
+    evt.preventDefault();
+
+    let newName = popupName.value;
+    let newProf = popupProf.value;
+
+    let profile = document.querySelector('.profile');
+    let profileName = profile.querySelector(".profile__name");
+    let profileProf = profile.querySelector(".profile__profession");
+
+    profileName.textContent = newName;
+    profileProf.textContent = newProf;
+}
+savePopupButton.addEventListener('click', formSubmitHandler);
+
+overlayEl.addEventListener('submit', formSubmitHandler);
+

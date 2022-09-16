@@ -1,6 +1,9 @@
 .profile__name {
     font-family: 'Inter', Arial, Helvetica, sans-serif;
     font-weight: 400;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 @media (min-width: 670px) {
