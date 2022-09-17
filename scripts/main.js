@@ -1,4 +1,5 @@
 let overlayEl = document.querySelector('.overlay');
+let popupForm = overlayEl.querySelector('.popup')
 let popupName = overlayEl.querySelector('input[name="name"]');
 let popupProf = overlayEl.querySelector('input[name="profession"]');
 let openPopupButton = document.querySelector('.profile__edit-button');
@@ -30,7 +31,6 @@ function formSubmitHandler (evt) {
     profileName.textContent = newName;
     profileProf.textContent = newProf;
 }
-savePopupButton.addEventListener('click', formSubmitHandler);
 
 overlayEl.addEventListener('submit', formSubmitHandler);
 
