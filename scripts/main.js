@@ -5,7 +5,9 @@ let popupProf = overlayEl.querySelector('input[name="profession"]');
 let openPopupButton = document.querySelector('.profile__edit-button');
 let closePopupButton = document.querySelector('.popup__close-button');
 let savePopupButton = overlayEl.querySelector('.popup__save-button');
-
+let profile = document.querySelector('.profile');
+let profileName = profile.querySelector(".profile__name");
+let profileProf = profile.querySelector(".profile__profession");
 
 
 let toggleOverlay = () => {
@@ -16,20 +18,13 @@ openPopupButton.addEventListener('click', toggleOverlay);
 
 closePopupButton.addEventListener('click', toggleOverlay);
 
-
-
 function formSubmitHandler (evt) {
     evt.preventDefault();
 
-    let newName = popupName.value;
-    let newProf = popupProf.value;
+    profileName.textContent = popupName.value;
+    profileProf.textContent = popupProf.value;
 
-    let profile = document.querySelector('.profile');
-    let profileName = profile.querySelector(".profile__name");
-    let profileProf = profile.querySelector(".profile__profession");
-
-    profileName.textContent = newName;
-    profileProf.textContent = newProf;
+    toggleOverlay();
 }
 
 overlayEl.addEventListener('submit', formSubmitHandler);
