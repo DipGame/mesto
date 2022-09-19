@@ -13,16 +13,15 @@
 @media (min-width: 670px) {
     .profile__add-button {
         margin: 33px 0 auto auto;
-        background-image: url(/images/Add\ Button.svg);
+        background-image: url(../../../images/Add\ Button.svg);
         min-width: 150px;
     }
 }
 
 @media (max-width: 669px) {
     .profile__add-button {
-        
         margin: 34px auto 0;
-        background-image: url(/images/Add_.svg);
-        width: 282px;
+        background-image: url(../../../images/Add_.svg);
+        width: 285px;
     }
 }
