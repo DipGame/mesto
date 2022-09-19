@@ -11,7 +11,9 @@ let profileProf = profile.querySelector(".profile__profession");
 
 
 let toggleOverlay = () => {
-    overlayEl.classList.toggle('overlay_open');
+    if (overlayEl.classList.toggle('overlay_open'))
+    popupName.value = profileName.textContent;
+    popupProf.value = profileProf.textContent;
 }
 
 openPopupButton.addEventListener('click', toggleOverlay);
