@@ -47,3 +47,24 @@ document.querySelector('.elements').onclick = function(e) {
 //Конец кнопки удалить
 
 
+//Начало Place(Типа попапа, только для добавления новых картинок)
+let placeOverlayEl = document.querySelector('.place-overlay');
+let placeForm = overlayEl.querySelector('.place')
+let placeName = overlayEl.querySelector('input[name="placeName"]');
+let placeUrl = overlayEl.querySelector('input[name="placeUrl"]');
+let openPlaceButton = document.querySelector('.profile__add-button');
+let closePlaceButton = document.querySelector('.place__close-button');
+let addPlaceButton = overlayEl.querySelector('.place__add-button');
+
+let togglePlaceOverlay = () => {
+    placeOverlayEl.classList.toggle('place-overlay_open');
+}
+
+openPlaceButton.addEventListener('click', togglePlaceOverlay);
+
+closePlaceButton.addEventListener('click', togglePlaceOverlay);
+
+
+
+//Конец Place(Типа попапа, только для добавления новых картинок)
+
