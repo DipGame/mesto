@@ -5,4 +5,5 @@
     max-width: 282px;
     min-height: 360px;
     overflow: hidden;
+    position: relative;
 }

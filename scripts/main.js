@@ -1,3 +1,4 @@
+//Начало Попапа для редактирования профиля
 let overlayEl = document.querySelector('.overlay');
 let popupForm = overlayEl.querySelector('.popup')
 let popupName = overlayEl.querySelector('input[name="name"]');
@@ -8,7 +9,6 @@ let savePopupButton = overlayEl.querySelector('.popup__save-button');
 let profile = document.querySelector('.profile');
 let profileName = profile.querySelector(".profile__name");
 let profileProf = profile.querySelector(".profile__profession");
-
 
 let toggleOverlay = () => {
     if (!overlayEl.classList.contains('overlay_open')) {
@@ -32,4 +32,18 @@ function formSubmitHandler (evt) {
 }
 
 overlayEl.addEventListener('submit', formSubmitHandler);
+//Конец Попапа для редактирования профиля
+
+
+
+//Начало кнопки удалить
+document.querySelector('.elements').onclick = function(e) {
+    const btn = e.target.closest('.element__delete');
+        if (!btn) {
+        return;
+    }
+        btn.closest('.element').remove();
+    }
+//Конец кнопки удалить
+
 
