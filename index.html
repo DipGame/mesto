@@ -26,9 +26,9 @@
           <button class="profile__add-button" type="button"></button>
         </section>
 
-        <section class="elements" id="elements">
+        <ul class="elements">
           
-        </section>
+        </ul>
       </main>
 
 
@@ -56,6 +56,17 @@
       <button class="place__add-button" type="submit">Создать</button>
     </form>
   </div>
+
+  <template class="placeTemplate">
+    <li class="element">
+      <button class="element__delete" type="button"></button>
+      <img class="element__image" alt="Картинка">
+      <div class="element__container-bottom">
+          <h2 class="element__title"></h2>
+          <button class="element__like" type="button"></button>
+      </div>
+    </li>
+  </template>
 
   <script src="./scripts/main.js"></script>
 </body>

@@ -47,79 +47,57 @@ document.querySelector('.elements').onclick = function(e) {
 
 
 //Начало Place(Типа попапа, только для добавления новых картинок)
-let placeOverlayEl = document.querySelector('.place-overlay');
-let placeForm = overlayEl.querySelector('.place')
-let placeName = overlayEl.querySelector('input[name="placeName"]');
-let placeUrl = overlayEl.querySelector('input[name="placeUrl"]');
-let openPlaceButton = document.querySelector('.profile__add-button');
-let closePlaceButton = document.querySelector('.place__close-button');
-
-let togglePlaceOverlay = () => {
-    placeOverlayEl.classList.toggle('place-overlay_open');
-}
-
-openPlaceButton.addEventListener('click', togglePlaceOverlay);
-
-closePlaceButton.addEventListener('click', togglePlaceOverlay);
-
 let initialCards = [
-    {
-      name: 'Архыз',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-    },
-    {
-      name: 'Челябинская область',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-    },
-    {
-      name: 'Иваново',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-    },
-    {
-      name: 'Камчатка',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-    },
-    {
-      name: 'Холмогорский район',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-    },
-    {
-      name: 'Байкал',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-    }
-  ]; 
+  {
+    name: 'Архыз',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+  },
+  {
+    name: 'Челябинская область',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+  },
+  {
+    name: 'Иваново',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+  },
+  {
+    name: 'Камчатка',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+  },
+  {
+    name: 'Холмогорский район',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+  },
+  {
+    name: 'Байкал',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+  }
+]; 
 
-function placeAdd (evt) {
-    evt.preventDefault();
+const elementsTemplate = document.querySelector('.elements');
+const placeTemplate = document.querySelector('.placeTemplate');
+const placeAddButton = document.querySelector('.place__add-button');
+const placeName = document.querySelector('input[name="placeName"]');
+const placeUrl = document.querySelector('input[name="placeUrl"]')
 
-    initialCards.unshift({
-        name: 'Байкал',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-    });
-
-    togglePlaceOverlay();
+function render () {
+  initialCards.forEach(renderInitialCards);
 }
 
-placeOverlayEl.addEventListener('submit', placeAdd);
+function renderInitialCards(text) {
+  const copyPlace = placeTemplate.cloneNode(true);
+  
+}
 
-let cardItem = ''
+render();
 
-let out = document.getElementById('elements')
-initialCards.forEach ((menu) => {
-    cardItem +=
-    `
-<div class="element">
-    <button class="element__delete" type="button"></button>
-    <img class="element__image" src="${menu.link}" alt="Картинка">
-    <div class="element__container-bottom">
-        <h2 class="element__title">${menu.name}</h2>
-        <button class="element__like" type="button"></button>
-    </div>
-</div>
-    `
-})
+// let togglePlaceOverlay = () => {
+//     placeOverlayEl.classList.toggle('place-overlay_open');
+// }
 
-out.insertAdjacentHTML('afterbegin', cardItem);
+// openPlaceButton.addEventListener('click', togglePlaceOverlay);
+
+// closePlaceButton.addEventListener('click', togglePlaceOverlay);
 
 
 
