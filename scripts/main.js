@@ -74,19 +74,23 @@ let initialCards = [
   }
 ]; 
 
+const pop = ['pop', 'kjds', 'dsadk', 'ds'];
+
 const elementsTemplate = document.querySelector('.elements');
-const placeTemplate = document.querySelector('.placeTemplate');
+const placeTemplate = document.querySelector('.placeTemplate').content;
 const placeAddButton = document.querySelector('.place__add-button');
 const placeName = document.querySelector('input[name="placeName"]');
 const placeUrl = document.querySelector('input[name="placeUrl"]')
 
-function render () {
-  initialCards.forEach(renderInitialCards);
+function render() {
+  initialCards.forEach(renderinitialCards);
 }
 
-function renderInitialCards(text) {
+function renderinitialCards(menu) {
   const copyPlace = placeTemplate.cloneNode(true);
-  
+  const placeTitle = placeTemplate.querySelector('.element__title');
+  placeTitle.textContent = name:text;
+  elementsTemplate.appendChild(copyPlace);
 }
 
 render();
