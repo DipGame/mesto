@@ -1,14 +1,13 @@
-.popup {
+.place {
     background-color: #FFFFFF;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
     position: relative;
-    transition: all 500ms ease;
 }
 
 @media (min-width: 670px) {
-    .popup {
+    .place {
         margin: 195px auto 0;
         width: 430px;
         height: 330px;
@@ -16,7 +15,7 @@
 }
 
 @media (max-width: 669px) {
-    .popup {
+    .place {
         margin: 123px auto 0;
         width: 282px;
         height: 322px;

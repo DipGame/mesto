@@ -16,8 +16,10 @@
 
 @import url(../blocks/elements/elements.css);
 @import url(../blocks/element/element.css);
+@import url(../blocks/element/__delete/element__delete.css);
 @import url(../blocks/element/__image/element__image.css);
 @import url(../blocks/element/__like/element__like.css);
+@import url(../blocks/element/__like/_active/element__like_active.css);
 @import url(../blocks/element/__title/element__title.css);
 @import url(../blocks/element/__container-bottom/element__container-bottom.css);
 
@@ -31,3 +33,18 @@
 @import url(../blocks/popup/__input/popup__input.css);
 @import url(../blocks/popup/__save-button/popup__save-button.css);
 @import url(../blocks/popup/__title/popup__title.css);
+
+@import url(../blocks/place-overlay/place-overlay.css);
+@import url(../blocks/place-overlay/_open/place-overlay_open.css);
+@import url(../blocks/place/place.css);
+@import url(../blocks/place/__close-button/place__close-button.css);
+@import url(../blocks/place/__input/place__input.css);
+@import url(../blocks/place/__add-button/place__add-button.css);
+@import url(../blocks/place/__title/place__title.css);
+
+@import url(../blocks/img-overlay/img-overlay.css);
+@import url(../blocks/img-overlay/_open/img-overlay_open.css);
+@import url(../blocks/img-form/img-form.css);
+@import url(../blocks/img-form/__close-button/img-form__close-button.css);
+@import url(../blocks/img-form/__picture/img-form__picture.css);
+@import url(../blocks/img-form/__title/img-form__title.css);
