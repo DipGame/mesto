@@ -102,11 +102,8 @@ function createPlace({name, link}) { //функция отрисовки кар�
   imgCloseButton.addEventListener('click', closeImgOverlay);//кнопка закрытия картинки
 
   likeButton.addEventListener("click", handleLikeActive);//кнопка лайк
-  appendChild(copyPlace);
-}
 
-function appendChild (name) {
-  elementsTemplate.appendChild(name);
+  elementsTemplate.appendChild(copyPlace);
 }
 
 function newCard(name) {//функция добавления новых карточек
