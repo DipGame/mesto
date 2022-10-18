@@ -13,3 +13,11 @@
     cursor: pointer;
     opacity: 0.6;
 }
+
+@media (max-width: 669px) {
+    .img-form__close-button {
+        transform: scale(62.5%);
+        right: -30px;
+        top: -35px;
+    }
+}

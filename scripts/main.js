@@ -106,14 +106,27 @@ function createPlace({name, link}) { //функция отрисовки кар�
   elementsTemplate.appendChild(copyPlace);
 }
 
-function newCard(name) {//функция добавления новых карточек
-  createPlace();
-  link = placeUrl.value;  
-  name = placeName.value;  
-  elementsTemplate.prepend(name);
+function newCard(evt) {
+  evt.preventDefault();
+  const copyPlace = placeTemplate.cloneNode(true);
+  const placeTitle = copyPlace.querySelector('.element__title');
+  const img = copyPlace.querySelector('.element__image');
+  const likeButton = copyPlace.querySelector('.element__like');
+  const btnDelete = copyPlace.querySelector('.element__delete');
+
+  btnDelete.addEventListener('click', handleDeleteCard); //кнопка удаления
+
+  img.addEventListener("click", openPicture);//кнопка открытия картинки по нажатию на картинку
+  imgCloseButton.addEventListener('click', closeImgOverlay);//кнопка закрытия картинки
+
+  likeButton.addEventListener("click", handleLikeActive);//кнопка лайк
+
+  img.src = placeUrl.value;  
+  placeTitle.textContent = placeName.value;  
+  elementsTemplate.prepend(copyPlace);
 }
 
-placeSaveButton.addEventListener('click', newCard);
+placeOverlayEl.addEventListener('submit', newCard);
 
 placeOpenButton.addEventListener('click', openPlaceOverlay);
 placeCloseButton.addEventListener('click', closePlaceOverlay);
