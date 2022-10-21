@@ -1,20 +1,28 @@
 //Начало Попапа для редактирования профиля
-let overlayEl = document.querySelector('.overlay');
-let popupForm = overlayEl.querySelector('.popup')
-let popupName = overlayEl.querySelector('input[name="name"]');
-let popupProf = overlayEl.querySelector('input[name="profession"]');
-let popupOpenButton = document.querySelector('.profile__edit-button');
-let popupCloseButton = document.querySelector('.popup__close-button');
-let profile = document.querySelector('.profile');
-let profileName = profile.querySelector(".profile__name");
-let profileProf = profile.querySelector(".profile__profession");
+const overlayEl = document.querySelector('.overlay');
+const popupForm = overlayEl.querySelector('.popup')
+const popupName = overlayEl.querySelector('input[name="name"]');
+const popupProf = overlayEl.querySelector('input[name="profession"]');
+const popupOpenButton = document.querySelector('.profile__edit-button');
+const popupCloseButton = document.querySelector('.popup__close-button');
+const profile = document.querySelector('.profile');
+const profileName = profile.querySelector(".profile__name");
+const profileProf = profile.querySelector(".profile__profession");
 
-let toggleOverlay = () => {
+function openOverlay(popup, popupClass) {
+  popup.classList.toggle(popupClass);
+}
+
+function closeOverlay(popup, popupClass) {
+  popup.classList.remove(popupClass);
+}
+
+const toggleOverlay = () => {
     if (!overlayEl.classList.contains('overlay_open')) {
     popupName.value = profileName.textContent;
     popupProf.value = profileProf.textContent;
 }
-    overlayEl.classList.toggle('overlay_open');
+  openOverlay(overlayEl, 'overlay_open');
 }
 
 popupOpenButton.addEventListener('click', toggleOverlay);
@@ -93,61 +101,45 @@ function createPlace({name, link}) { //функция отрисовки кар�
   const likeButton = copyPlace.querySelector('.element__like');
   const btnDelete = copyPlace.querySelector('.element__delete');
 
-  img.src = link; 
-  placeTitle.textContent = name; 
+  img.alt = name;
+  placeTitle.textContent = name;
+  img.src = link;
 
   btnDelete.addEventListener('click', handleDeleteCard); //кнопка удаления
 
   img.addEventListener("click", openPicture);//кнопка открытия картинки по нажатию на картинку
-  imgCloseButton.addEventListener('click', closeImgOverlay);//кнопка закрытия картинки
 
   likeButton.addEventListener("click", handleLikeActive);//кнопка лайк
 
-  elementsTemplate.appendChild(copyPlace);
+  elementsTemplate.prepend(copyPlace);//вставка на страницу
 }
 
-function newCard(evt) {
+function newCard(evt) {//функция добавления новых карточек
   evt.preventDefault();
-  const copyPlace = placeTemplate.cloneNode(true);
-  const placeTitle = copyPlace.querySelector('.element__title');
-  const img = copyPlace.querySelector('.element__image');
-  const likeButton = copyPlace.querySelector('.element__like');
-  const btnDelete = copyPlace.querySelector('.element__delete');
-
-  btnDelete.addEventListener('click', handleDeleteCard); //кнопка удаления
-
-  img.addEventListener("click", openPicture);//кнопка открытия картинки по нажатию на картинку
-  imgCloseButton.addEventListener('click', closeImgOverlay);//кнопка закрытия картинки
-
-  likeButton.addEventListener("click", handleLikeActive);//кнопка лайк
-
-  img.src = placeUrl.value;  
-  placeTitle.textContent = placeName.value;  
-  elementsTemplate.prepend(copyPlace);
+  createPlace({name: placeName.value, link: placeUrl.value});
+  closeOverlay(placeOverlayEl);
 }
 
-placeOverlayEl.addEventListener('submit', newCard);
+placeOverlayEl.addEventListener('submit', newCard);//кнопка сохранения новых карточек
 
-placeOpenButton.addEventListener('click', openPlaceOverlay);
-placeCloseButton.addEventListener('click', closePlaceOverlay);
+placeOpenButton.addEventListener('click', openPlaceOverlay);//кнопка открытия попапа для создания новых карточек
+placeCloseButton.addEventListener('click', closePlaceOverlay);//кнопка закрытия попапа для создания новых карточек
+
+imgCloseButton.addEventListener('click', closeImgOverlay);//кнопка закрытия картинки
 
 function openPlaceOverlay() {//функция открытия попапа для добавления картинок
-  placeOverlayEl.classList.toggle('place-overlay_open');
+  openOverlay(placeOverlayEl, 'place-overlay_open');
 }
 
 function closePlaceOverlay() {//функция закрытия попапа для добавления картинок
-  placeOverlayEl.classList.remove('place-overlay_open');
-}
-
-function openImgOverlay(popup) {//функция открытия попапа для картинок
-  imgOverlayEl.classList.toggle(popup);
+  closeOverlay(placeOverlayEl, 'place-overlay_open');
 }
 
 function closeImgOverlay() {//функция закрытия попапа для картинок
-  imgOverlayEl.classList.remove('img-overlay_open');
+  closeOverlay(imgOverlayEl, 'img-overlay_open');
 }
 
-const handleDeleteCard = (evt) => { //функция работы кнопки удаления 
+const handleDeleteCard = (evt) => { //функция работы кнопки удаления
   evt.target.closest('.element').remove();
 }
 
@@ -155,7 +147,7 @@ function openPicture(event) {//функция открытия картинки 
   const imgElementTg = event.target.closest('.element');
   imgPicture.src = event.target.src;
   imgName.textContent = imgElementTg.textContent;
-  openImgOverlay('img-overlay_open');
+  openOverlay(imgOverlayEl, 'img-overlay_open');
 }
 
 function handleLikeActive(event) {//функция лайка
@@ -163,7 +155,4 @@ function handleLikeActive(event) {//функция лайка
 }
 
 render();
-//Конец Place(Типа попапа, только для добавления новых картинок)
-
-
-
+//Конец Place(Типа попапа, только для добавления новых картинок
