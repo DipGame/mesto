@@ -117,13 +117,12 @@ function render() { //функция рендер карточек из масс
 }
 
 function addCard(element) {
-    elementsTemplate.appendChild(element);
+    elementsTemplate.prepend(element);
 }
 
 function createNewCard(evt) {//функция добавления новых карточек
   evt.preventDefault();
   createPlace({name: placeName.value, link: placeUrl.value});
-  elementsTemplate.prepend(createPlace);
   closeOverlay(placepopupOverlayEl);
 }
 
