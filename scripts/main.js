@@ -1,5 +1,5 @@
 //Начало Попапа для редактирования профиля
-const avatarOverlayEl = document.querySelector('.overlay');
+const avatarOverlayEl = document.querySelector('.overlay_popup');
 const avatarForm = avatarOverlayEl.querySelector('.popup')
 const avatarName = avatarOverlayEl.querySelector('input[name="name"]');
 const avatarProf = avatarOverlayEl.querySelector('input[name="profession"]');
@@ -80,7 +80,7 @@ const initialCards = [
 
   const elementsTemplate = document.querySelector('.elements');
   const placeTemplate = document.querySelector('.placeTemplate').content;
-  const placeavatarOverlayEl = document.querySelector('.place-overlay');
+  const placeavatarOverlayEl = document.querySelector('.overlay_place');
   const placeForm = placeavatarOverlayEl.querySelector('.place');
   const placeName = placeavatarOverlayEl.querySelector('input[name="placeName"]');
   const placeUrl = placeavatarOverlayEl.querySelector('input[name="placeUrl"]');
@@ -88,7 +88,7 @@ const initialCards = [
   const placeSaveButton = placeavatarOverlayEl.querySelector('.place__add-button');
   const placeCloseButton = placeavatarOverlayEl.querySelector('.place__close-button');
 
-  const imgavatarOverlayEl = document.querySelector('.img-overlay');
+  const imgavatarOverlayEl = document.querySelector('.overlay_img');
   const imgForm = imgavatarOverlayEl.querySelector('.img-form');
   const imgName = imgavatarOverlayEl.querySelector('.img-form__title');
   const imgCloseButton = imgavatarOverlayEl.querySelector('.img-form__close-button');
