@@ -95,7 +95,7 @@ const initialCards = [
   const imgPicture = imgavatarOverlayEl.querySelector('.img-form__picture');
 
 function render() { //функция рендер карточек из массива
-  initialCards.forEach(createPlace);
+  initialCards.forEach(addCard);
 }
 
   function createPlace({name, link}) { //функция отрисовки карточек
@@ -115,18 +115,16 @@ function render() { //функция рендер карточек из масс
 
   likeButton.addEventListener("click", handleLikeActive);//кнопка лайк
   
-  addCard(copyPlace);
-  
   return copyPlace;//вставка на страницу
 }
 
-function addCard(element) {
-    elementsTemplate.prepend(element);
+function addCard({name, link}) { //функция прорисовки карточек 
+    elementsTemplate.prepend(createPlace({name, link}));
 }
 
 function createNewCard(evt) {//функция добавления новых карточек
   evt.preventDefault();
-  createPlace({name: placeName.value, link: placeUrl.value});
+  addCard({name: placeName.value, link: placeUrl.value});
   closeOverlay(placeavatarOverlayEl);
 }
 
