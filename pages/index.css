@@ -33,6 +33,9 @@
 @import url(../blocks/popup/__input/popup__input.css);
 @import url(../blocks/popup/__save-button/popup__save-button.css);
 @import url(../blocks/popup/__title/popup__title.css);
+@import url(../blocks/popup/__error/popup__error.css);
+@import url(../blocks/popup/__error-active/popup__error-active.css);
+@import url(../blocks/popup/__save-bitton-disabled/popup__save-button-disabled.css);
 
 @import url(../blocks/place/place.css);
 @import url(../blocks/place/__close-button/place__close-button.css);

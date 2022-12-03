@@ -1,0 +1,9 @@
+.popup__error {
+    margin: 0 36px 0 36px;
+    padding: 0;
+    color: #ff3333;
+    font-size: 0.8rem;
+    box-sizing: border-box;
+    opacity: 0;
+	visibility: hidden;
+  }

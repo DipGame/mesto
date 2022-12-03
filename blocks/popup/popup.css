@@ -5,6 +5,7 @@
     flex-direction: column;
     position: relative;
     transition: all 500ms ease;
+    z-index: 3;
 }
 
 @media (min-width: 670px) {

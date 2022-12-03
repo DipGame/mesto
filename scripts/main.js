@@ -1,10 +1,12 @@
 //Начало Попапа для редактирования профиля
 const avatarOverlayEl = document.querySelector('.overlay_popup');
+const overlayEl = document.querySelector('.overlay');
 const avatarForm = avatarOverlayEl.querySelector('.popup')
 const avatarName = avatarOverlayEl.querySelector('input[name="name"]');
 const avatarProf = avatarOverlayEl.querySelector('input[name="profession"]');
 const avatarOpenButton = document.querySelector('.profile__edit-button');
 const avatarCloseButton = document.querySelector('.popup__close-button');
+const popupSaveButton = document.querySelector('.popup__save-button');
 const profile = document.querySelector('.profile');
 const profileName = profile.querySelector(".profile__name");
 const profileProf = profile.querySelector(".profile__profession");
@@ -27,6 +29,12 @@ const openAvatarOverlay = () => {
 
 const closeAvatarOverlay = () => {
   closeOverlay(avatarOverlayEl);
+}
+
+avatarOverlayEl.onclick = function(event) {
+  if (event.target === avatarOverlayEl) {
+    closeAvatarOverlay();
+  }
 }
 
 avatarOpenButton.addEventListener('click', openAvatarOverlay);
@@ -93,6 +101,28 @@ const initialCards = [
   const imgName = imgavatarOverlayEl.querySelector('.img-form__title');
   const imgCloseButton = imgavatarOverlayEl.querySelector('.img-form__close-button');
   const imgPicture = imgavatarOverlayEl.querySelector('.img-form__picture');
+
+  function escapePopup(event) {
+  if (event.keyCode == '27') {
+      closePlaceOverlay();
+      closeImgOverlay();
+      closeAvatarOverlay();
+  }
+}
+
+  placeavatarOverlayEl.onclick = function(event) {
+    if (event.target === placeavatarOverlayEl) {
+      closePlaceOverlay();
+    }
+  }
+
+  document.addEventListener('keydown', escapePopup);
+
+  imgavatarOverlayEl.onclick = function(event) {
+    if (event.target === imgavatarOverlayEl) {
+      closeImgOverlay();
+    }
+  }
 
 function render() { //функция рендер карточек из массива
   initialCards.forEach(addCard);
