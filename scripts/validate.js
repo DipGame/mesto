@@ -2,17 +2,17 @@ const errorUserMassage = avatarOverlayEl.querySelector('#errorUserName');
 const errorProfMassage = avatarOverlayEl.querySelector('#errorProfName');
 const errorPlaceName = placeavatarOverlayEl.querySelector('#errorPlaceName');
 const errorPlaceUrl = placeavatarOverlayEl.querySelector('#errorPlaceUrl');
-const popupError = avatarOverlayEl.querySelector('.popup__error');
+const popupError = avatarOverlayEl.querySelector('.error');
 
 
 const showError = (input, errorText) => {
-  input.classList.add('popup__error-active');
+  input.classList.add('error-active');
   input.textContent = errorText;
 }
 
 const hideError = (input, saveButton, errorActive) => {
-  input.classList.remove('popup__error-active');
-  if (!errorActive.classList.contains('popup__error-active')) {
+  input.classList.remove('error-active');
+  if (!errorActive.classList.contains('error-active')) {
     saveButton.removeAttribute('disabled');
     saveButton.classList.remove('popup__save-button-disabled');
   }
