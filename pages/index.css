@@ -48,6 +48,4 @@
 @import url(../blocks/img-form/__picture/img-form__picture.css);
 @import url(../blocks/img-form/__title/img-form__title.css);
 
-
-@import url(../blocks/form/_input/_type/_error/form__input_type_error.css);
 @import url(../blocks/button/_inactive/button_inactive.css);
