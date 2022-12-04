@@ -1,3 +1,12 @@
+const enableValidation = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'button_inactive',
+  inputErrorClass: 'form__input_type_error',
+  errorClass: 'form__input-error_active'
+};
+
 const showInputError = (formElement, inputElement, errorMessage) => {
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
   inputElement.classList.add('form__input_type_error');
@@ -23,8 +32,8 @@ const checkInputValidity = (formElement, inputElement) => {
 
 
 const setEventListeners = (formElement) => {
-  const inputList = Array.from(formElement.querySelectorAll('.form__input'));
-  const buttonElement = formElement.querySelector('.form__submit');
+  const inputList = Array.from(formElement.querySelectorAll(enableValidation.inputSelector));
+  const buttonElement = formElement.querySelector(enableValidation.submitButtonSelector);
 
   toggleButtonState(inputList, buttonElement);
 
@@ -36,8 +45,8 @@ const setEventListeners = (formElement) => {
   });
 }; 
 
-const enableValidation = () => {
-  const formList = Array.from(document.querySelectorAll('.form'));
+const enableValidationFunction = () => {
+  const formList = Array.from(document.querySelectorAll(enableValidation.formSelector));
   formList.forEach((formElement) => {
     formElement.addEventListener('submit', function (evt) {
       evt.preventDefault();
@@ -51,14 +60,7 @@ const enableValidation = () => {
   
 };
 
-enableValidation({
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__button',
-  inactiveButtonClass: 'popup__button_disabled',
-  inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__error_visible'
-});
+enableValidationFunction();
 
 function hasInvalidInput(inputList) {
   return inputList.some((inputElement) => {
@@ -71,9 +73,9 @@ function hasInvalidInput(inputList) {
 
 function toggleButtonState(inputList, buttonElement) {
   if (hasInvalidInput(inputList)) {
-  buttonElement.classList.add('button_inactive');
+  buttonElement.classList.add(enableValidation.inactiveButtonClass);
 } else {
-  buttonElement.classList.remove('button_inactive');
+  buttonElement.classList.remove(enableValidation.inactiveButtonClass);
 } 
   
 }

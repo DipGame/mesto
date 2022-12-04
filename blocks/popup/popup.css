@@ -1,9 +1,6 @@
 .popup {
     background-color: #FFFFFF;
     border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    position: relative;
     transition: all 500ms ease;
     z-index: 3;
 }
