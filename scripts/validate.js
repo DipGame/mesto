@@ -1,85 +1,72 @@
-const errorUserMassage = avatarOverlayEl.querySelector('#errorUserName');
-const errorProfMassage = avatarOverlayEl.querySelector('#errorProfName');
-const errorPlaceName = placeavatarOverlayEl.querySelector('#errorPlaceName');
-const errorPlaceUrl = placeavatarOverlayEl.querySelector('#errorPlaceUrl');
-const popupError = avatarOverlayEl.querySelector('.error');
+const showInputError = (formElement, inputElement, errorMessage) => {
+  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+  inputElement.classList.add('form__input_type_error');
+  errorElement.textContent = errorMessage;
+  errorElement.classList.add('form__input-error_active');
+};
 
+const hideInputError = (formElement, inputElement) => {
+  const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
+  inputElement.classList.remove('form__input_type_error');
+  errorElement.classList.remove('form__input-error_active');
+  errorElement.textContent = '';
+};
 
-const showError = (input, errorText) => {
-  input.classList.add('error-active');
-  input.textContent = errorText;
-}
-
-const hideError = (input, saveButton, errorActive) => {
-  input.classList.remove('error-active');
-  if (!errorActive.classList.contains('error-active')) {
-    saveButton.removeAttribute('disabled');
-    saveButton.classList.remove('popup__save-button-disabled');
+const checkInputValidity = (formElement, inputElement) => {
+  if (!inputElement.validity.valid) {
+    showInputError(formElement, inputElement, inputElement.validationMessage);
+  } else {
+    hideInputError(formElement, inputElement);
   }
 };
 
-const checkInputValidity = (idInput, idErrorMassage, saveButton, errorActive) => {
-    const noText = 'Вы пропустили это поле.';
-    const minLimitText = `Минимальное количество символов: 2. Длина текста сейчас: ${idInput.value.length} символ.`;
-    const maxLimit30Text = `Максимальное количество символов: 30. Длина текста сейчас: ${idInput.value.length} символ.`;
-    const maxLimit40Text = `Максимальное количество символов: 40. Длина текста сейчас: ${idInput.value.length} символ.`;
-    const maxLimit200Text = `Максимальное количество символов: 200. Длина текста сейчас: ${idInput.value.length} символ.`;
-    const noUrlText = 'Введите адрес сайта.';
-    if (!idInput.value) {
-      showError(idErrorMassage, noText);
-      idInput.style.borderBottom = '1px solid red';
-      saveButton.setAttribute('disabled', true);
-      saveButton.classList.add('popup__save-button-disabled');
-    } 
-    else if (!idInput.validity.valid) {
-      showError(idErrorMassage, noUrlText);
-      idInput.style.borderBottom = '1px solid red';
-      saveButton.setAttribute('disabled', true);
-      saveButton.classList.add('popup__save-button-disabled');
-  }
-    else if (idInput.value.length < 2) {
-      showError(idErrorMassage, minLimitText);
-      idInput.style.borderBottom = '1px solid red';
-      saveButton.setAttribute('disabled', true);
-      saveButton.classList.add('popup__save-button-disabled');
-    } 
-    else if (idInput.value.length > 30 && idInput === placeName) {
-      showError(idErrorMassage, maxLimit30Text);
-      idInput.style.borderBottom = '1px solid red';
-      saveButton.setAttribute('disabled', true);
-      saveButton.classList.add('popup__save-button-disabled');
-  }
-    else if (idInput.value.length > 40 && idInput === avatarName) {
-        showError(idErrorMassage, maxLimit40Text);
-        idInput.style.borderBottom = '1px solid red';
-        saveButton.setAttribute('disabled', true);
-        saveButton.classList.add('popup__save-button-disabled');
-    }
-    else if (idInput.value.length > 200 && idInput === avatarProf) {
-        showError(idErrorMassage, maxLimit200Text);
-        idInput.style.borderBottom = '1px solid red';
-        saveButton.setAttribute('disabled', true);
-        saveButton.classList.add('popup__save-button-disabled');
-    }
+
+
+const setEventListeners = (formElement) => {
+  const inputList = Array.from(formElement.querySelectorAll('.form__input'));
+  const buttonElement = formElement.querySelector('.form__submit');
+
+  toggleButtonState(inputList, buttonElement);
+
+  inputList.forEach((inputElement) => {
+    inputElement.addEventListener('input', function () {
+      checkInputValidity(formElement, inputElement);
+      toggleButtonState(inputList, buttonElement);
+    });
+  });
+}; 
+
+const enableValidation = () => {
+  const formList = Array.from(document.querySelectorAll('.form'));
+  formList.forEach((formElement) => {
+    formElement.addEventListener('submit', function (evt) {
+      evt.preventDefault();
+    });
+    const fieldsetList = Array.from(formElement.querySelectorAll('.form__set'));
+    fieldsetList.forEach((fieldSet) => {
+  setEventListeners(fieldSet);
+}); 
     
-    else {
-      hideError(idErrorMassage, saveButton, errorActive);
-      idInput.style.borderBottom = '1px solid #000';
-    } 
-    };
+  })
+  
+};
 
-avatarName.addEventListener('input', function () {
-    checkInputValidity(avatarName, errorUserMassage, popupSaveButton, popupError);
-  });
+enableValidation();
 
-  avatarProf.addEventListener('input', function () {
-    checkInputValidity(avatarProf, errorProfMassage, popupSaveButton, popupError);
-  });
+function hasInvalidInput(inputList) {
+  return inputList.some((inputElement) => {
+  return !inputElement.validity.valid;
+}); 
+}
 
-  placeName.addEventListener('input', function () {
-    checkInputValidity(placeName, errorPlaceName, placeSaveButton, popupError);
-  });
 
-  placeUrl.addEventListener('input', function () {
-    checkInputValidity(placeUrl, errorPlaceUrl, placeSaveButton, popupError);
-  });
+
+
+function toggleButtonState(inputList, buttonElement) {
+  if (hasInvalidInput(inputList)) {
+  buttonElement.classList.add('button_inactive');
+} else {
+  buttonElement.classList.remove('button_inactive');
+} 
+  
+}
