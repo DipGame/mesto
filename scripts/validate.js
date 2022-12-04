@@ -1,5 +1,5 @@
 const enableValidation = {
-  formSelector: '.popup__form',
+  formSelector: '.popup_form',
   inputSelector: '.popup__input',
   submitButtonSelector: '.popup__button',
   inactiveButtonClass: 'button_inactive',
