@@ -1,4 +1,4 @@
-.form__set {
+.popup__set {
     border: 0 none;
     display: flex;
     flex-direction: column;
@@ -7,14 +7,14 @@
 }
 
 @media (min-width: 670px) {
-    .form__set {
+    .popup__set {
         width: 402px;
         height: 310px;
     }
 }
 
 @media (max-width: 669px) {
-    .form__set {
+    .popup__set {
         width: 230px;
         height: 302px;
     }
