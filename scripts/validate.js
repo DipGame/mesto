@@ -4,7 +4,7 @@ const enableValidation = {
   submitButtonSelector: '.popup__button',
   inactiveButtonClass: 'button_inactive',
   inputErrorClass: 'form__input_type_error',
-  errorClass: 'form__input-error_active'
+  errorClass: 'popup__input-error_active'
 };
 
 const showInputError = (formElement, inputElement, errorMessage) => {
