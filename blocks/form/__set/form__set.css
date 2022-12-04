@@ -1,5 +1,21 @@
 .form__set {
-    width: 100%;
-    height: 100%;
     border: 0 none;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    margin: auto;
+}
+
+@media (min-width: 670px) {
+    .form__set {
+        width: 402px;
+        height: 310px;
+    }
+}
+
+@media (max-width: 669px) {
+    .form__set {
+        width: 230px;
+        height: 302px;
+    }
 }

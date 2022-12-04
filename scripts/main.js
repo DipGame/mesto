@@ -11,7 +11,16 @@ const profile = document.querySelector('.profile');
 const profileName = profile.querySelector(".profile__name");
 const profileProf = profile.querySelector(".profile__profession");
 
+function escapePopup(event) {
+  if (event.keyCode == '27') {
+      closePlaceOverlay();
+      closeImgOverlay();
+      closeAvatarOverlay();
+  }
+}
+
 function openOverlay(popup) {
+  document.addEventListener('keydown', escapePopup);
   popup.classList.add('overlay_open');
 }
 
@@ -102,21 +111,12 @@ const initialCards = [
   const imgCloseButton = imgavatarOverlayEl.querySelector('.img-form__close-button');
   const imgPicture = imgavatarOverlayEl.querySelector('.img-form__picture');
 
-  function escapePopup(event) {
-  if (event.keyCode == '27') {
-      closePlaceOverlay();
-      closeImgOverlay();
-      closeAvatarOverlay();
-  }
-}
-
   placeavatarOverlayEl.onclick = function(event) {
     if (event.target === placeavatarOverlayEl) {
       closePlaceOverlay();
     }
   }
 
-  document.addEventListener('keydown', escapePopup);
 
   imgavatarOverlayEl.onclick = function(event) {
     if (event.target === imgavatarOverlayEl) {
