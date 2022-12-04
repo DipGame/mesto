@@ -1,0 +1,21 @@
+.form__set {
+    border: 0;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    margin: auto;
+}
+
+@media (min-width: 670px) {
+    .form__set {
+        width: 400px;
+        height: 100%;
+    }
+}
+
+@media (max-width: 669px) {
+    .form__set {
+        width: 252px;
+        height: 100%;
+    }
+}
