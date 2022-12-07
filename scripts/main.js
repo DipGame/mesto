@@ -23,7 +23,7 @@ function openOverlay(popup) {
 }
 
 function closeOverlay(popup) {
-  document.addEventListener('keydown', handleEscape);
+  document.removeEventListener('keydown', handleEscape);
   popup.classList.remove('overlay_open');
 }
 
@@ -51,7 +51,7 @@ avatarCloseButton.addEventListener('click', closeAvatarOverlay);
 
 function handleProfileFormSubmit (evt) {
     evt.preventDefault();
-
+    popupSaveButton.classList.add('button_inactive');
     profileName.textContent = avatarName.value;
     profileProf.textContent = avatarProf.value;
 
@@ -156,6 +156,7 @@ function addCard({name, link}) { //функция прорисовки карт�
 
 function createNewCard(evt) {//функция добавления новых карточек
   evt.preventDefault();
+  popupSaveButton.classList.add('button_inactive');
   addCard({name: placeName.value, link: placeUrl.value});
   closeOverlay(placeprofileOverlayEl);
 }

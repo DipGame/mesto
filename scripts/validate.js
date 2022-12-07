@@ -39,7 +39,7 @@ const setEventListeners = (formElement) => {
 
   formElement.addEventListener('reset', () => {
     setTimeout(() => {
-     toggleButtonState(inputList, buttonElement);
+    toggleButtonState(inputList, buttonElement);
     }, 0);
   });
 
@@ -75,9 +75,9 @@ function hasInvalidInput(inputList) {
 function toggleButtonState(inputList, buttonElement) {
   if (hasInvalidInput(inputList)) {
   buttonElement.classList.add(enableValidation.inactiveButtonClass);
-  buttonElement.setAttribute("disabled", "disabled");
+  buttonElement.disabled = true;
 } else {
   buttonElement.classList.remove(enableValidation.inactiveButtonClass);
-  buttonElement.removeAttribute("disabled", "disabled");
+  buttonElement.disabled = false;
 }
 }
