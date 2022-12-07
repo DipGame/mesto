@@ -13,7 +13,7 @@ const profileProf = profile.querySelector(".profile__profession");
 function handleEscape(event) {
   if (event.key === 'Escape') {
     const openedPopup = document.querySelector('.overlay_open')
-   closeOverlay(openedPopup);
+    closeOverlay(openedPopup);
   }
 }
 
@@ -27,13 +27,13 @@ function closeOverlay(popup) {
   popup.classList.remove('overlay_open');
 }
 
-const openAvatarOverlay = () => {
+const openProfileOverlay = () => {
   avatarName.value = profileName.textContent;
   avatarProf.value = profileProf.textContent;
   openOverlay(profileOverlayEl);
 }
 
-const closeAvatarOverlay = () => {
+const closeProfileOverlay = () => {
   closeOverlay(profileOverlayEl);
 }
 
@@ -45,17 +45,22 @@ function closeProfilePopup(event) {
   }
 }
 
-avatarOpenButton.addEventListener('click', openAvatarOverlay);
+avatarOpenButton.addEventListener('click', openProfileOverlay);
 
-avatarCloseButton.addEventListener('click', closeAvatarOverlay);
+avatarCloseButton.addEventListener('click', closeProfileOverlay);
 
-function handleProfileFormSubmit (evt) {
-    evt.preventDefault();
-    popupSaveButton.classList.add('button_inactive');
-    profileName.textContent = avatarName.value;
-    profileProf.textContent = avatarProf.value;
+function handleProfileFormSubmit(evt) {
+  evt.preventDefault();
+  disableSubmit(popupSaveButton);
+  profileName.textContent = avatarName.value;
+  profileProf.textContent = avatarProf.value;
+  closeOverlay(profileOverlayEl);
+  
+}
 
-    closeOverlay(profileOverlayEl);
+function disableSubmit(button) {
+  button.classList.add('button_inactive');
+  button.disabled = true;
 }
 
 profileOverlayEl.addEventListener('submit', handleProfileFormSubmit);
@@ -94,43 +99,43 @@ const initialCards = [
   }
 ];
 
-  const elementsTemplate = document.querySelector('.elements');
-  const placeTemplate = document.querySelector('.placeTemplate').content;
-  const placeprofileOverlayEl = document.querySelector('.overlay_place');
-  const placeForm = placeprofileOverlayEl.querySelector('.place');
-  const placeName = placeprofileOverlayEl.querySelector('input[name="placeName"]');
-  const placeUrl = placeprofileOverlayEl.querySelector('input[name="placeUrl"]');
-  const placeOpenButton = document.querySelector('.profile__add-button');
-  const placeSaveButton = placeprofileOverlayEl.querySelector('.place__add-button');
-  const placeCloseButton = placeprofileOverlayEl.querySelector('.place__close-button');
+const elementsTemplate = document.querySelector('.elements');
+const placeTemplate = document.querySelector('.placeTemplate').content;
+const placeprofileOverlayEl = document.querySelector('.overlay_place');
+const placeForm = placeprofileOverlayEl.querySelector('.place');
+const placeName = placeprofileOverlayEl.querySelector('input[name="placeName"]');
+const placeUrl = placeprofileOverlayEl.querySelector('input[name="placeUrl"]');
+const placeOpenButton = document.querySelector('.profile__add-button');
+const placeSaveButton = placeprofileOverlayEl.querySelector('.place__add-button');
+const placeCloseButton = placeprofileOverlayEl.querySelector('.place__close-button');
 
-  const imgprofileOverlayEl = document.querySelector('.overlay_img');
-  const imgForm = imgprofileOverlayEl.querySelector('.img-form');
-  const imgName = imgprofileOverlayEl.querySelector('.img-form__title');
-  const imgCloseButton = imgprofileOverlayEl.querySelector('.img-form__close-button');
-  const imgPicture = imgprofileOverlayEl.querySelector('.img-form__picture');
+const imgprofileOverlayEl = document.querySelector('.overlay_img');
+const imgForm = imgprofileOverlayEl.querySelector('.img-form');
+const imgName = imgprofileOverlayEl.querySelector('.img-form__title');
+const imgCloseButton = imgprofileOverlayEl.querySelector('.img-form__close-button');
+const imgPicture = imgprofileOverlayEl.querySelector('.img-form__picture');
 
-  placeprofileOverlayEl.addEventListener('click', closePlacePopup);
+placeprofileOverlayEl.addEventListener('click', closePlacePopup);
 
-  function closePlacePopup(event) {
-     if (event.target === placeprofileOverlayEl) {
+function closePlacePopup(event) {
+  if (event.target === placeprofileOverlayEl) {
     closeOverlay(placeprofileOverlayEl);
-    }
+  }
 }
 
 imgprofileOverlayEl.addEventListener('click', closeImgPopup);
 
-  function closeImgPopup(event) {
-     if (event.target === imgprofileOverlayEl) {
+function closeImgPopup(event) {
+  if (event.target === imgprofileOverlayEl) {
     closeOverlay(imgprofileOverlayEl);
-    }
+  }
 }
 
 function render() { //функция рендер карточек из массива
   initialCards.forEach(addCard);
 }
 
-  function createPlace({name, link}) { //функция отрисовки карточек
+function createPlace({ name, link }) { //функция отрисовки карточек
   const copyPlace = placeTemplate.cloneNode(true);
   const placeTitle = copyPlace.querySelector('.element__title');
   const img = copyPlace.querySelector('.element__image');
@@ -146,18 +151,20 @@ function render() { //функция рендер карточек из масс
   img.addEventListener("click", handleOpenPicture);//кнопка открытия картинки по нажатию на картинку
 
   likeButton.addEventListener("click", handleLikeActive);//кнопка лайк
-  
+
   return copyPlace;//вставка на страницу
 }
 
-function addCard({name, link}) { //функция прорисовки карточек 
-    elementsTemplate.prepend(createPlace({name, link}));
+function addCard({ name, link }) { //функция прорисовки карточек 
+  elementsTemplate.prepend(createPlace({ name, link }));
 }
 
 function createNewCard(evt) {//функция добавления новых карточек
   evt.preventDefault();
-  popupSaveButton.classList.add('button_inactive');
-  addCard({name: placeName.value, link: placeUrl.value});
+  disableSubmit(placeSaveButton);
+  addCard({ name: placeName.value, link: placeUrl.value });
+  placeName.value = '';
+  placeUrl.value = '';
   closeOverlay(placeprofileOverlayEl);
 }
 
@@ -169,8 +176,6 @@ placeCloseButton.addEventListener('click', closePlaceOverlay);//кнопка з�
 imgCloseButton.addEventListener('click', closeImgOverlay);//кнопка закрытия картинки
 
 function openPlaceOverlay() {//функция открытия попапа для добавления картинок
-  placeName.value = '';
-  placeUrl.value = '';
   openOverlay(placeprofileOverlayEl);
 }
 
