@@ -1,3 +1,6 @@
+import Card from "./Card.js";
+import FormValidator from "./FormValidator.js";
+
 //Начало Попапа для редактирования профиля
 const profileOverlayEl = document.querySelector('.overlay_popup');
 const profilePopup = profileOverlayEl.querySelector('.popup')
@@ -67,9 +70,6 @@ profileOverlayEl.addEventListener('submit', handleProfileFormSubmit);
 //Конец Попапа для редактирования профиля
 
 
-
-
-
 // Начало Place(Типа попапа, только для добавления новых картинок)
 
 const initialCards = [
@@ -135,28 +135,9 @@ function render() { //функция рендер карточек из масс
   initialCards.forEach(addCard);
 }
 
-function createPlace({ name, link }) { //функция отрисовки карточек
-  const copyPlace = placeTemplate.cloneNode(true);
-  const placeTitle = copyPlace.querySelector('.element__title');
-  const img = copyPlace.querySelector('.element__image');
-  const likeButton = copyPlace.querySelector('.element__like');
-  const btnDelete = copyPlace.querySelector('.element__delete');
-
-  img.alt = name;
-  placeTitle.textContent = name;
-  img.src = link;
-
-  btnDelete.addEventListener('click', handleDeleteCard); //кнопка удаления
-
-  img.addEventListener("click", handleOpenPicture);//кнопка открытия картинки по нажатию на картинку
-
-  likeButton.addEventListener("click", handleLikeActive);//кнопка лайк
-
-  return copyPlace;//вставка на страницу
-}
-
-function addCard({ name, link }) { //функция прорисовки карточек 
-  elementsTemplate.prepend(createPlace({ name, link }));
+function addCard({ name, link }) { //функция прорисовки карточек
+  const card = new Card({ name, link });
+  elementsTemplate.prepend(card.getView());
 }
 
 function createNewCard(evt) {//функция добавления новых карточек
@@ -191,7 +172,7 @@ const handleDeleteCard = (evt) => { //функция работы кнопки �
   evt.target.closest('.element').remove();
 }
 
-function handleOpenPicture(event) {//функция открытия картинки по нажатию на картинку
+export function handleOpenPicture(event) {//функция открытия картинки по нажатию на картинку
   const imgElementTg = event.target.closest('.element');
   imgPicture.src = event.target.src;
   imgPicture.alt = imgElementTg.textContent;
@@ -199,9 +180,9 @@ function handleOpenPicture(event) {//функция открытия карти�
   openOverlay(imgprofileOverlayEl);
 }
 
-function handleLikeActive(event) {//функция лайка
-  event.target.classList.toggle('element__like_active');
-}
-
 render();
+
+const MyFormValidation = new FormValidator();
+
+MyFormValidation.enableValidationFunction();
 //Конец Place(Типа попапа, только для добавления новых картинок
