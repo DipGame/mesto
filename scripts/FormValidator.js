@@ -1,22 +1,12 @@
-const enableValidation = {
-    formSelector: '.popup_form',
-    inputSelector: '.popup__input',
-    submitButtonSelector: '.popup__button',
-    inactiveButtonClass: 'button_inactive',
-    inputErrorClass: 'form__input_type_error',
-    errorClass: 'popup__input-error_active'
-};
-
 class FormValidator {
-    constructor() {
-        this._enableValidation = enableValidation;
+    constructor(enableValidation, form) {
+        this._form = form;
         this._formSelector = enableValidation.formSelector;
         this._inputSelector = enableValidation.inputSelector;
         this._submitButtonSelector = enableValidation.submitButtonSelector;
         this._inactiveButtonClass = enableValidation.inactiveButtonClass;
         this._inputErrorClass = enableValidation.inputErrorClass;
         this._errorClass = enableValidation.errorClass;
-        this._buttonElement = document.querySelector('.popup__button');
     };
 
     _showInputError(formElement, inputElement, errorMessage) {
@@ -62,7 +52,7 @@ class FormValidator {
     };
 
     enableValidationFunction(settings) {
-        const formList = Array.from(document.querySelectorAll(this._formSelector));
+        const formList = document.querySelectorAll(this._formSelector);
         formList.forEach((formElement) => {
             formElement.addEventListener('submit', function (evt) {
                 evt.preventDefault();
@@ -85,6 +75,11 @@ class FormValidator {
             buttonElement.classList.remove(this._inactiveButtonClass);
             buttonElement.disabled = false;
         }
+    }
+
+    disableSubmit(button) {
+        button.classList.add('button_inactive');
+        button.disabled = true;
     }
 };
 

@@ -54,16 +54,11 @@ avatarCloseButton.addEventListener('click', closeProfileOverlay);
 
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
-  disableSubmit(popupSaveButton);
+  myFormValidation.disableSubmit(popupSaveButton);
   profileName.textContent = avatarName.value;
   profileProf.textContent = avatarProf.value;
   closeOverlay(profileOverlayEl);
   
-}
-
-function disableSubmit(button) {
-  button.classList.add('button_inactive');
-  button.disabled = true;
 }
 
 profileOverlayEl.addEventListener('submit', handleProfileFormSubmit);
@@ -117,6 +112,15 @@ const imgPicture = imgprofileOverlayEl.querySelector('.img-form__picture');
 
 placeprofileOverlayEl.addEventListener('click', closePlacePopup);
 
+export function getTemplateCard() {
+  const card = document
+      .querySelector("#placeCardTemplate")
+      .content.querySelector(".element")
+      .cloneNode(true);
+
+  return card;
+}
+
 function closePlacePopup(event) {
   if (event.target === placeprofileOverlayEl) {
     closeOverlay(placeprofileOverlayEl);
@@ -142,7 +146,7 @@ function addCard({ name, link }) { //функция прорисовки кар�
 
 function createNewCard(evt) {//функция добавления новых карточек
   evt.preventDefault();
-  disableSubmit(placeSaveButton);
+  myFormValidation.disableSubmit(placeSaveButton);
   addCard({ name: placeName.value, link: placeUrl.value });
   placeName.value = '';
   placeUrl.value = '';
@@ -182,7 +186,16 @@ export function handleOpenPicture(event) {//функция открытия ка
 
 render();
 
-const MyFormValidation = new FormValidator();
+const enableValidation = {
+  formSelector: '.popup_form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'button_inactive',
+  inputErrorClass: 'form__input_type_error',
+  errorClass: 'popup__input-error_active'
+};
 
-MyFormValidation.enableValidationFunction();
+const myFormValidation = new FormValidator(enableValidation);
+
+myFormValidation.enableValidationFunction();
 //Конец Place(Типа попапа, только для добавления новых картинок
