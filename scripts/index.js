@@ -3,7 +3,7 @@ import FormValidator from "./FormValidator.js";
 
 //Начало Попапа для редактирования профиля
 const profileOverlayEl = document.querySelector('.overlay_popup');
-const profilePopup = profileOverlayEl.querySelector('.popup')
+const profileForm = profileOverlayEl.querySelector('.profileForm')
 const avatarName = profileOverlayEl.querySelector('input[name="name"]');
 const avatarProf = profileOverlayEl.querySelector('input[name="profession"]');
 const avatarOpenButton = document.querySelector('.profile__edit-button');
@@ -58,7 +58,7 @@ function handleProfileFormSubmit(evt) {
   profileName.textContent = avatarName.value;
   profileProf.textContent = avatarProf.value;
   closeOverlay(profileOverlayEl);
-  
+
 }
 
 profileOverlayEl.addEventListener('submit', handleProfileFormSubmit);
@@ -96,6 +96,7 @@ const initialCards = [
 
 const elementsTemplate = document.querySelector('.elements');
 const placeTemplate = document.querySelector('.placeTemplate').content;
+export const selector = "#placeCardTemplate";
 const placeprofileOverlayEl = document.querySelector('.overlay_place');
 const placeForm = placeprofileOverlayEl.querySelector('.place');
 const placeName = placeprofileOverlayEl.querySelector('input[name="placeName"]');
@@ -112,14 +113,8 @@ const imgPicture = imgprofileOverlayEl.querySelector('.img-form__picture');
 
 placeprofileOverlayEl.addEventListener('click', closePlacePopup);
 
-export function getTemplateCard() {
-  const card = document
-      .querySelector("#placeCardTemplate")
-      .content.querySelector(".element")
-      .cloneNode(true);
 
-  return card;
-}
+
 
 function closePlacePopup(event) {
   if (event.target === placeprofileOverlayEl) {
@@ -139,9 +134,14 @@ function render() { //функция рендер карточек из масс
   initialCards.forEach(addCard);
 }
 
-function addCard({ name, link }) { //функция прорисовки карточек
+function createCard({ name, link }) { //функция прорисовки карточек
   const card = new Card({ name, link });
-  elementsTemplate.prepend(card.getView());
+  const cardElement = card.getView();
+  return cardElement
+}
+
+function addCard({ name, link }) { //функция прорисовки карточек
+  elementsTemplate.append(createCard({ name, link }));
 }
 
 function createNewCard(evt) {//функция добавления новых карточек
@@ -187,7 +187,6 @@ export function handleOpenPicture(event) {//функция открытия ка
 render();
 
 const enableValidation = {
-  formSelector: '.popup_form',
   inputSelector: '.popup__input',
   submitButtonSelector: '.popup__button',
   inactiveButtonClass: 'button_inactive',
@@ -195,7 +194,10 @@ const enableValidation = {
   errorClass: 'popup__input-error_active'
 };
 
-const myFormValidation = new FormValidator(enableValidation);
+const placeFormValidation = new FormValidator(enableValidation, placeForm);
 
-myFormValidation.enableValidationFunction();
+const profileFormValidation = new FormValidator(enableValidation, profileForm);
+
+placeFormValidation.enableValidationFunction();
+profileFormValidation.enableValidationFunction();
 //Конец Place(Типа попапа, только для добавления новых картинок

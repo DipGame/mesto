@@ -1,7 +1,6 @@
 class FormValidator {
     constructor(enableValidation, form) {
-        this._form = form;
-        this._formSelector = enableValidation.formSelector;
+        this._formSelector = form;
         this._inputSelector = enableValidation.inputSelector;
         this._submitButtonSelector = enableValidation.submitButtonSelector;
         this._inactiveButtonClass = enableValidation.inactiveButtonClass;
@@ -52,14 +51,12 @@ class FormValidator {
     };
 
     enableValidationFunction(settings) {
-        const formList = document.querySelectorAll(this._formSelector);
-        formList.forEach((formElement) => {
-            formElement.addEventListener('submit', function (evt) {
-                evt.preventDefault();
-            });
-            this._setEventListeners(formElement);
+        const formList = this._formSelector;
+        formList.addEventListener('submit', function (evt) {
+            evt.preventDefault();
         });
-    }
+        this._setEventListeners(formList);
+    };
 
     _hasInvalidInput(inputList) {
         return inputList.some((inputElement) => {

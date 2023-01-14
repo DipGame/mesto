@@ -1,10 +1,15 @@
-import {handleOpenPicture, getTemplateCard} from './index.js';
+import { handleOpenPicture, selector } from './index.js';
 
 class Card {
     constructor({ name, link }) {
         this._name = name;
         this._link = link;
-        this._getTemplateCard = getTemplateCard;
+        this._selector = selector;
+    }
+
+    _getTemplateCard() {
+        const card = document.querySelector(this._selector).content.querySelector('.element').cloneNode(true);
+        return card;
     }
 
     _handleDeleteCard() {
