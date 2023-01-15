@@ -1,7 +1,7 @@
-import { handleOpenPicture, selector } from './index.js';
+import { handleOpenPicture } from './index.js';
 
 class Card {
-    constructor({ name, link }) {
+    constructor({ name, link }, selector) {
         this._name = name;
         this._link = link;
         this._selector = selector;

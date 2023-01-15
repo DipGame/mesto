@@ -1,6 +1,6 @@
 class FormValidator {
     constructor(enableValidation, form) {
-        this._formSelector = form;
+        this._form = form;
         this._inputSelector = enableValidation.inputSelector;
         this._submitButtonSelector = enableValidation.submitButtonSelector;
         this._inactiveButtonClass = enableValidation.inactiveButtonClass;
@@ -51,7 +51,7 @@ class FormValidator {
     };
 
     enableValidationFunction(settings) {
-        const formList = this._formSelector;
+        const formList = this._form;
         formList.addEventListener('submit', function (evt) {
             evt.preventDefault();
         });

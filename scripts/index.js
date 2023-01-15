@@ -54,7 +54,6 @@ avatarCloseButton.addEventListener('click', closeProfileOverlay);
 
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
-  myFormValidation.disableSubmit(popupSaveButton);
   profileName.textContent = avatarName.value;
   profileProf.textContent = avatarProf.value;
   closeOverlay(profileOverlayEl);
@@ -96,7 +95,7 @@ const initialCards = [
 
 const elementsTemplate = document.querySelector('.elements');
 const placeTemplate = document.querySelector('.placeTemplate').content;
-export const selector = "#placeCardTemplate";
+const formSelector = "#placeCardTemplate";
 const placeprofileOverlayEl = document.querySelector('.overlay_place');
 const placeForm = placeprofileOverlayEl.querySelector('.place');
 const placeName = placeprofileOverlayEl.querySelector('input[name="placeName"]');
@@ -134,19 +133,18 @@ function render() { //функция рендер карточек из масс
   initialCards.forEach(addCard);
 }
 
-function createCard({ name, link }) { //функция прорисовки карточек
-  const card = new Card({ name, link });
+function createCard({ name, link }, selector) { //функция прорисовки карточек
+  const card = new Card({ name, link }, selector);
   const cardElement = card.getView();
   return cardElement
 }
 
-function addCard({ name, link }) { //функция прорисовки карточек
-  elementsTemplate.append(createCard({ name, link }));
+function addCard({ name, link }, selector) { //функция прорисовки карточек
+  elementsTemplate.append(createCard({ name, link }, formSelector));
 }
 
 function createNewCard(evt) {//функция добавления новых карточек
   evt.preventDefault();
-  myFormValidation.disableSubmit(placeSaveButton);
   addCard({ name: placeName.value, link: placeUrl.value });
   placeName.value = '';
   placeUrl.value = '';
