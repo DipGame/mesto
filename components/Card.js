@@ -1,4 +1,5 @@
-import { handleOpenPicture } from './index.js';
+import { imgName, imgPicture, imgprofileOverlayEl } from '../pages/index.js';
+import PopupWithImage from './PopupWithImage.js';
 
 class Card {
     constructor({ name, link }, selector) {
@@ -21,7 +22,9 @@ class Card {
     }
 
     _handleImgOpen() {
-        handleOpenPicture(event);
+        const popupImgOpen = new PopupWithImage(imgprofileOverlayEl);
+        popupImgOpen.open(imgName, imgPicture, '.element');
+        popupImgOpen.setEventListeners();
     }
 
     _setEventListeners() {

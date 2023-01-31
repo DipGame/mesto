@@ -1,5 +1,11 @@
-import Card from "./Card.js";
-import FormValidator from "./FormValidator.js";
+import Card from "../components/Card.js";
+import FormValidator from "../components/FormValidator.js";
+import Section from "../components/Section.js";
+import Popup from "../components/Popup.js";
+import PopupWithImage from "../components/PopupWithImage.js";
+import PopupWithForm from "../components/PopupWithForm.js";
+import UserInfo from "../components/UserInfo.js";
+import './index.css';
 
 //Начало Попапа для редактирования профиля
 const profileOverlayEl = document.querySelector('.overlay_popup');
@@ -13,56 +19,26 @@ const profile = document.querySelector('.profile');
 const profileName = profile.querySelector(".profile__name");
 const profileProf = profile.querySelector(".profile__profession");
 
-function handleEscape(event) {
-  if (event.key === 'Escape') {
-    const openedPopup = document.querySelector('.overlay_open')
-    closeOverlay(openedPopup);
-  }
-}
-
-function openOverlay(popup) {
-  document.addEventListener('keydown', handleEscape);
-  popup.classList.add('overlay_open');
-}
-
-function closeOverlay(popup) {
-  document.removeEventListener('keydown', handleEscape);
-  popup.classList.remove('overlay_open');
-}
+const popupProf = new Popup(profileOverlayEl);
 
 const openProfileOverlay = () => {
-  avatarName.value = profileName.textContent;
-  avatarProf.value = profileProf.textContent;
-  openOverlay(profileOverlayEl);
+  const userInfo = new UserInfo(profileName, profileProf);
+  userInfo.getUserInfo(avatarName, avatarProf);
+  popupProf.open();
+  popupProf.setEventListeners();
 }
 
 const closeProfileOverlay = () => {
-  closeOverlay(profileOverlayEl);
-}
-
-profileOverlayEl.addEventListener('click', closeProfilePopup);
-
-function closeProfilePopup(event) {
-  if (event.target === profileOverlayEl) {
-    closeOverlay(profileOverlayEl);
-  }
+  popupProf.close();
 }
 
 avatarOpenButton.addEventListener('click', openProfileOverlay);
 
 avatarCloseButton.addEventListener('click', closeProfileOverlay);
 
-function handleProfileFormSubmit(evt) {
-  evt.preventDefault();
-  profileName.textContent = avatarName.value;
-  profileProf.textContent = avatarProf.value;
-  closeOverlay(profileOverlayEl);
+const popupProfSumbit = new PopupWithForm(profileOverlayEl, {profileForm});
 
-}
-
-profileOverlayEl.addEventListener('submit', handleProfileFormSubmit);
-//Конец Попапа для редактирования профиля
-
+popupProfSumbit.setEventListeners(profileName, profileProf);
 
 // Начало Place(Типа попапа, только для добавления новых картинок)
 
@@ -104,51 +80,50 @@ const placeOpenButton = document.querySelector('.profile__add-button');
 const placeSaveButton = placeprofileOverlayEl.querySelector('.place__add-button');
 const placeCloseButton = placeprofileOverlayEl.querySelector('.place__close-button');
 
-const imgprofileOverlayEl = document.querySelector('.overlay_img');
+export const imgprofileOverlayEl = document.querySelector('.overlay_img');
 const imgForm = imgprofileOverlayEl.querySelector('.img-form');
-const imgName = imgprofileOverlayEl.querySelector('.img-form__title');
+export const imgName = imgprofileOverlayEl.querySelector('.img-form__title');
 const imgCloseButton = imgprofileOverlayEl.querySelector('.img-form__close-button');
-const imgPicture = imgprofileOverlayEl.querySelector('.img-form__picture');
-
-placeprofileOverlayEl.addEventListener('click', closePlacePopup);
+export const imgPicture = imgprofileOverlayEl.querySelector('.img-form__picture');
 
 
+const popupPlace = new Popup(placeprofileOverlayEl);
 
+const popupPlaceSubmit = new PopupWithForm(placeprofileOverlayEl, {placeForm});
 
-function closePlacePopup(event) {
-  if (event.target === placeprofileOverlayEl) {
-    closeOverlay(placeprofileOverlayEl);
+popupPlaceSubmit.setEventListeners(placeName, placeUrl);
+
+function openPlaceOverlay() {//функция открытия попапа для добавления картинок
+  popupPlace.open();
+  popupPlace.setEventListeners();
+}
+
+function closePlaceOverlay() {//функция закрытия попапа для добавления картинок
+  popupPlace.close();
+}
+
+const popupImg = new PopupWithImage(imgprofileOverlayEl);
+
+const setCard = new Section({
+  items: initialCards,
+  renderer: (item) => {
+    const card = new Card(item, formSelector);
+    const cardElement = card.getView();
+    setCard.addItem(cardElement);
   }
-}
+}, elementsTemplate);
 
-imgprofileOverlayEl.addEventListener('click', closeImgPopup);
-
-function closeImgPopup(event) {
-  if (event.target === imgprofileOverlayEl) {
-    closeOverlay(imgprofileOverlayEl);
-  }
-}
-
-function render() { //функция рендер карточек из массива
-  initialCards.forEach(addCard);
-}
-
-function createCard({ name, link }, selector) { //функция прорисовки карточек
-  const card = new Card({ name, link }, selector);
-  const cardElement = card.getView();
-  return cardElement
-}
-
-function addCard({ name, link }, selector) { //функция прорисовки карточек
-  elementsTemplate.append(createCard({ name, link }, formSelector));
-}
+setCard.renderItems();
 
 function createNewCard(evt) {//функция добавления новых карточек
   evt.preventDefault();
-  addCard({ name: placeName.value, link: placeUrl.value });
+  console.log('hi');
+  const cardPlace = new Card({ name: placeName.value, link: placeUrl.value }, formSelector);
+  const cardElementPlace = cardPlace.getView();
+  setCard.addItem(cardElementPlace)
   placeName.value = '';
   placeUrl.value = '';
-  closeOverlay(placeprofileOverlayEl);
+  closePlaceOverlay();
 }
 
 placeprofileOverlayEl.addEventListener('submit', createNewCard);//кнопка сохранения новых карточек
@@ -158,33 +133,11 @@ placeCloseButton.addEventListener('click', closePlaceOverlay);//кнопка з�
 
 imgCloseButton.addEventListener('click', closeImgOverlay);//кнопка закрытия картинки
 
-function openPlaceOverlay() {//функция открытия попапа для добавления картинок
-  openOverlay(placeprofileOverlayEl);
-}
-
-function closePlaceOverlay() {//функция закрытия попапа для добавления картинок
-  closeOverlay(placeprofileOverlayEl);
-}
-
 function closeImgOverlay() {//функция закрытия попапа для картинок
-  closeOverlay(imgprofileOverlayEl);
+  popupImg.close();
 }
 
-const handleDeleteCard = (evt) => { //функция работы кнопки удаления
-  evt.target.closest('.element').remove();
-}
-
-export function handleOpenPicture(event) {//функция открытия картинки по нажатию на картинку
-  const imgElementTg = event.target.closest('.element');
-  imgPicture.src = event.target.src;
-  imgPicture.alt = imgElementTg.textContent;
-  imgName.textContent = imgElementTg.textContent;
-  openOverlay(imgprofileOverlayEl);
-}
-
-render();
-
-const enableValidation = {
+export const enableValidation = {
   inputSelector: '.popup__input',
   submitButtonSelector: '.popup__button',
   inactiveButtonClass: 'button_inactive',
