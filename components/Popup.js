@@ -1,31 +1,36 @@
 export default class Popup {
-    constructor(selector) {
-        this._selector = selector;
+    constructor(elementDom) {
+        this._elementDom = elementDom;
+        this._handleEscClose = this._handleEscClose.bind(this);
     }
 
     open() {
         document.addEventListener('keydown', () => this._handleEscClose(event));
-        this._selector.classList.add('overlay_open');
+        this._elementDom.classList.add('overlay_open');
     }
 
     close() {
-        document.removeEventListener('keydown', () => this._handleEscClose(event));
-        this._selector.classList.remove('overlay_open');
+        document.addEventListener('keydown', () => this._handleEscClose(event));
+        this._elementDom.classList.remove('overlay_open');
     }
 
     _handleEscClose(event) {
         if (event.key === 'Escape') {
-            this._selector.classList.remove('overlay_open');
+            this._elementDom.classList.remove('overlay_open');
         }
     }
 
+
     _overlayListeners(event) {
-        if (event.target === this._selector) {
+        if (event.target === this._elementDom) {
             this.close()
         };
     }
 
     setEventListeners() {
-        this._selector.addEventListener('click', () => this._overlayListeners(event))
+        this._elementDom.addEventListener('click', () =>
+            this._overlayListeners(event));
+        this._elementDom.querySelector('.overlay__close').addEventListener('click', () =>
+            this.close());
     }
 }

@@ -1,11 +1,9 @@
-import { imgName, imgPicture, imgprofileOverlayEl } from '../pages/index.js';
-import PopupWithImage from './PopupWithImage.js';
-
 class Card {
-    constructor({ name, link }, selector) {
+    constructor({ name, link }, selector, handleCardClick) {
         this._name = name;
         this._link = link;
         this._selector = selector;
+        this._handleCardClick = handleCardClick;
     }
 
     _getTemplateCard() {
@@ -21,12 +19,6 @@ class Card {
         this._likeButton.classList.toggle('element__like_active');
     }
 
-    _handleImgOpen() {
-        const popupImgOpen = new PopupWithImage(imgprofileOverlayEl);
-        popupImgOpen.open(imgName, imgPicture, '.element');
-        popupImgOpen.setEventListeners();
-    }
-
     _setEventListeners() {
         const deleteCard = this._newCard.querySelector('.element__delete');
         deleteCard.addEventListener('click', () => this._handleDeleteCard())
@@ -35,7 +27,7 @@ class Card {
         this._likeButton.addEventListener('click', () => this._handleLikeCard());
 
         this._imgOpen = this._newCard.querySelector('.element__image');
-        this._imgOpen.addEventListener('click', () => this._handleImgOpen());
+        this._imgOpen.addEventListener('click', () => this._handleCardClick());
     }
 
     _setData() {

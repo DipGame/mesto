@@ -1,35 +1,35 @@
 import Popup from "./Popup.js";
-import FormValidator from "./FormValidator.js";
-import {enableValidation} from "../pages/index.js";
-
 
 export default class PopupWithForm extends Popup {
-    constructor(selector, { submitForm }) {
-        super(selector);
+    constructor(elementDom, {submitForm , disableSubmitButton}) {
+        super(elementDom);
         this._submitForm = submitForm;
-        this._nameInput = this._selector.querySelector('.popup__input_one');
-        this._profInput = this._selector.querySelector('.popup__input_two');
-        this._submitButton = this._selector.querySelector('.popup__submit')
+        this._inputs = this._elementDom.querySelectorAll('.popup__input')
+        this._submitButton = this._elementDom.querySelector('.popup__submit')
+        this._disableSubmitButton = disableSubmitButton;
     }
 
-    _getInputValues(one, two) {
-        one.textContent = this._nameInput.value;
-        two.textContent = this._profInput.value;
-        this.close();
+    _getInputValues() {
+        this._value = {};
+        this._inputs.forEach(element => {
+            this._value[element.name] = element.value;
+        })
+        return this._value
     }
+
 
     close() {
-        const buttonOff = new FormValidator(enableValidation, this._selector);
-        buttonOff.disableSubmit(this._submitButton);
         super.close();
     }
 
-    setEventListeners(one, two) {
+    setEventListeners() {
         super.setEventListeners()
-        this._selector.addEventListener('submit', (evt) => {
+
+        this._elementDom.addEventListener('submit', (evt) => {
             evt.preventDefault();
-            
-            this._getInputValues(one, two)
+            this._submitForm(this._getInputValues())
+            this._disableSubmitButton();
+            this.close();
         })
     }
 }

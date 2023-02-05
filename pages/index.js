@@ -1,14 +1,13 @@
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
 import Section from "../components/Section.js";
-import Popup from "../components/Popup.js";
 import PopupWithImage from "../components/PopupWithImage.js";
 import PopupWithForm from "../components/PopupWithForm.js";
 import UserInfo from "../components/UserInfo.js";
-import './index.css';
+import { profileOverlayEl, initialCards, placeprofileOverlayEl, imgprofileOverlayEl } from "../utils/constants.js";
+import "./index.css";
 
 //Начало Попапа для редактирования профиля
-const profileOverlayEl = document.querySelector('.overlay_popup');
 const profileForm = profileOverlayEl.querySelector('.profileForm')
 const avatarName = profileOverlayEl.querySelector('input[name="name"]');
 const avatarProf = profileOverlayEl.querySelector('input[name="profession"]');
@@ -19,60 +18,35 @@ const profile = document.querySelector('.profile');
 const profileName = profile.querySelector(".profile__name");
 const profileProf = profile.querySelector(".profile__profession");
 
-const popupProf = new Popup(profileOverlayEl);
+const popupProfSubmit = new PopupWithForm(profileOverlayEl, {
+  submitForm: () => {
+    userInfo.setUserInfo(avatarName.value, avatarProf.value)
+  },
+  disableSubmitButton: () => {
+    profileFormValidation.disableSubmit(popupSaveButton);
+  }
+});
+
+const userInfo = new UserInfo({
+  userName: profileName,
+  userProfession: profileProf
+})
 
 const openProfileOverlay = () => {
-  const userInfo = new UserInfo(profileName, profileProf);
-  userInfo.getUserInfo(avatarName, avatarProf);
-  popupProf.open();
-  popupProf.setEventListeners();
-}
-
-const closeProfileOverlay = () => {
-  popupProf.close();
+  const profileInfo = userInfo.getUserInfo();
+  avatarName.value = profileInfo.name;
+  avatarProf.value = profileInfo.profession;
+  popupProfSubmit.open();
 }
 
 avatarOpenButton.addEventListener('click', openProfileOverlay);
 
-avatarCloseButton.addEventListener('click', closeProfileOverlay);
+popupProfSubmit.setEventListeners();
 
-const popupProfSumbit = new PopupWithForm(profileOverlayEl, {profileForm});
-
-popupProfSumbit.setEventListeners(profileName, profileProf);
-
-// Начало Place(Типа попапа, только для добавления новых картинок)
-
-const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-    name: 'Сургут',
-    link: 'https://picworld.ru/wp-content/uploads/2017/02/Surgut_05.jpeg'
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
 
 const elementsTemplate = document.querySelector('.elements');
 const placeTemplate = document.querySelector('.placeTemplate').content;
 const formSelector = "#placeCardTemplate";
-const placeprofileOverlayEl = document.querySelector('.overlay_place');
 const placeForm = placeprofileOverlayEl.querySelector('.place');
 const placeName = placeprofileOverlayEl.querySelector('input[name="placeName"]');
 const placeUrl = placeprofileOverlayEl.querySelector('input[name="placeUrl"]');
@@ -80,36 +54,43 @@ const placeOpenButton = document.querySelector('.profile__add-button');
 const placeSaveButton = placeprofileOverlayEl.querySelector('.place__add-button');
 const placeCloseButton = placeprofileOverlayEl.querySelector('.place__close-button');
 
-export const imgprofileOverlayEl = document.querySelector('.overlay_img');
+
 const imgForm = imgprofileOverlayEl.querySelector('.img-form');
-export const imgName = imgprofileOverlayEl.querySelector('.img-form__title');
+const imgName = imgprofileOverlayEl.querySelector('.img-form__title');
 const imgCloseButton = imgprofileOverlayEl.querySelector('.img-form__close-button');
-export const imgPicture = imgprofileOverlayEl.querySelector('.img-form__picture');
+const imgPicture = imgprofileOverlayEl.querySelector('.img-form__picture');
 
+const popupPlaceSubmit = new PopupWithForm(placeprofileOverlayEl, {
+  submitForm: () => { },
+  disableSubmitButton: () => {
+    placeFormValidation.disableSubmit(placeSaveButton);
+  }
+});
 
-const popupPlace = new Popup(placeprofileOverlayEl);
-
-const popupPlaceSubmit = new PopupWithForm(placeprofileOverlayEl, {placeForm});
-
-popupPlaceSubmit.setEventListeners(placeName, placeUrl);
+popupPlaceSubmit.setEventListeners();
 
 function openPlaceOverlay() {//функция открытия попапа для добавления картинок
-  popupPlace.open();
-  popupPlace.setEventListeners();
+  popupPlaceSubmit.open();
 }
 
-function closePlaceOverlay() {//функция закрытия попапа для добавления картинок
-  popupPlace.close();
+const popupImg = new PopupWithImage(imgprofileOverlayEl, '.element');
+
+function handleCardClick() {
+  popupImg.open(imgName, imgPicture);
+  popupImg.setEventListeners();
 }
 
-const popupImg = new PopupWithImage(imgprofileOverlayEl);
+function getViewCard(items, selector, handlelick) {
+  const card = new Card(items, selector, handlelick);
+  const cardElement = card.getView();
+  return cardElement;
+}
 
 const setCard = new Section({
   items: initialCards,
   renderer: (item) => {
-    const card = new Card(item, formSelector);
-    const cardElement = card.getView();
-    setCard.addItem(cardElement);
+    getViewCard(item, formSelector, handleCardClick);
+    setCard.addItem(getViewCard(item, formSelector, handleCardClick));
   }
 }, elementsTemplate);
 
@@ -117,21 +98,17 @@ setCard.renderItems();
 
 function createNewCard(evt) {//функция добавления новых карточек
   evt.preventDefault();
-  console.log('hi');
-  const cardPlace = new Card({ name: placeName.value, link: placeUrl.value }, formSelector);
-  const cardElementPlace = cardPlace.getView();
-  setCard.addItem(cardElementPlace)
+  getViewCard({ name: placeName.value, link: placeUrl.value }, formSelector, handleCardClick);
+  setCard.addItem(getViewCard({ name: placeName.value, link: placeUrl.value }, formSelector, handleCardClick));
   placeName.value = '';
   placeUrl.value = '';
-  closePlaceOverlay();
 }
+
 
 placeprofileOverlayEl.addEventListener('submit', createNewCard);//кнопка сохранения новых карточек
 
 placeOpenButton.addEventListener('click', openPlaceOverlay);//кнопка открытия попапа для создания новых карточек
-placeCloseButton.addEventListener('click', closePlaceOverlay);//кнопка закрытия попапа для создания новых карточек
-
-imgCloseButton.addEventListener('click', closeImgOverlay);//кнопка закрытия картинки
+// placeCloseButton.addEventListener('click', closePlaceOverlay);//кнопка закрытия попапа для создания новых карточек
 
 function closeImgOverlay() {//функция закрытия попапа для картинок
   popupImg.close();
@@ -148,6 +125,8 @@ export const enableValidation = {
 const placeFormValidation = new FormValidator(enableValidation, placeForm);
 
 const profileFormValidation = new FormValidator(enableValidation, profileForm);
+
+
 
 placeFormValidation.enableValidationFunction();
 profileFormValidation.enableValidationFunction();
