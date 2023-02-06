@@ -26,7 +26,9 @@
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/footer/__copyright/footer__copyright.css);
 
-@import url(../blocks/overlay/overlay.css);
+@import url(../blocks/overlay/overlay_img.css);
+@import url(../blocks/overlay/overlay_place.css);
+@import url(../blocks/overlay/overlay_popup.css);
 @import url(../blocks/overlay/_open/overlay_open.css);
 @import url(../blocks/popup/popup.css);
 @import url(../blocks/popup/__close-button/popup__close-button.css);
@@ -47,5 +49,7 @@
 @import url(../blocks/img-form/__close-button/img-form__close-button.css);
 @import url(../blocks/img-form/__picture/img-form__picture.css);
 @import url(../blocks/img-form/__title/img-form__title.css);
+
+
 
 @import url(../blocks/button/_inactive/button_inactive.css);
