@@ -10,9 +10,6 @@ import {
 } from "../utils/constants.js";
 import "./index.css";
 
-
-//Начало Попапа для редактирования профиля
-
 const popupProfSubmit = new PopupWithForm(profileOverlayEl, {
   submitForm: () => {
     userInfo.setUserInfo(avatarName.value, avatarProf.value)
@@ -38,8 +35,6 @@ avatarOpenButton.addEventListener('click', openProfileOverlay);
 
 popupProfSubmit.setEventListeners();
 
-
-
 const popupPlaceSubmit = new PopupWithForm(placeprofileOverlayEl, {
   submitForm: () => { },
   disableSubmitButton: () => {
@@ -49,7 +44,7 @@ const popupPlaceSubmit = new PopupWithForm(placeprofileOverlayEl, {
 
 popupPlaceSubmit.setEventListeners();
 
-function openPlaceOverlay() {//функция открытия попапа для добавления картинок
+function openPlaceOverlay() {
   popupPlaceSubmit.open();
 }
 
@@ -76,7 +71,7 @@ const setCard = new Section({
 
 setCard.renderItems();
 
-function createNewCard(evt) {//функция добавления новых карточек
+function createNewCard(evt) {
   evt.preventDefault();
   getViewCard({ name: placeName.value, link: placeUrl.value }, formSelector, handleCardClick);
   setCard.addItem(getViewCard({ name: placeName.value, link: placeUrl.value }, formSelector, handleCardClick));
@@ -84,15 +79,9 @@ function createNewCard(evt) {//функция добавления новых к
   placeUrl.value = '';
 }
 
+placeprofileOverlayEl.addEventListener('submit', createNewCard);
 
-placeprofileOverlayEl.addEventListener('submit', createNewCard);//кнопка сохранения новых карточек
-
-placeOpenButton.addEventListener('click', openPlaceOverlay);//кнопка открытия попапа для создания новых карточек
-// placeCloseButton.addEventListener('click', closePlaceOverlay);//кнопка закрытия попапа для создания новых карточек
-
-function closeImgOverlay() {//функция закрытия попапа для картинок
-  popupImg.close();
-}
+placeOpenButton.addEventListener('click', openPlaceOverlay);
 
 export const enableValidation = {
   inputSelector: '.popup__input',
@@ -106,8 +95,5 @@ const placeFormValidation = new FormValidator(enableValidation, placeForm);
 
 const profileFormValidation = new FormValidator(enableValidation, profileForm);
 
-
-
 placeFormValidation.enableValidationFunction();
 profileFormValidation.enableValidationFunction();
-//Конец Place(Типа попапа, только для добавления новых картинок
