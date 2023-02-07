@@ -27,7 +27,6 @@ export default class Popup {
     }
 
     setEventListeners() {
-        this._handleCloseEsc();
         this._elementDom.addEventListener('click', () =>
             this._overlayListeners(event));
         this._elementDom.querySelector('.overlay__close').addEventListener('click', () =>
