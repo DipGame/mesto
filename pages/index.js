@@ -12,10 +12,10 @@ import "./index.css";
 
 const popupProfSubmit = new PopupWithForm(profileOverlayEl, {
   submitForm: () => {
-    userInfo.setUserInfo(avatarName.value, avatarProf.value)
+    userInfo.setUserInfo(avatarName, avatarProf)
   },
   disableSubmitButton: () => {
-    profileFormValidation.disableSubmit(popupSaveButton);
+    profileFormValidation.disableSubmit();
   }
 });
 
@@ -36,9 +36,14 @@ avatarOpenButton.addEventListener('click', openProfileOverlay);
 popupProfSubmit.setEventListeners();
 
 const popupPlaceSubmit = new PopupWithForm(placeprofileOverlayEl, {
-  submitForm: () => { },
+  submitForm: () => {
+    getViewCard({ name: placeName.value, link: placeUrl.value }, formSelector, handleCardClick);
+    setCard.addItem(getViewCard({ name: placeName.value, link: placeUrl.value }, formSelector, handleCardClick));
+    placeName.value = '';
+    placeUrl.value = '';
+  },
   disableSubmitButton: () => {
-    placeFormValidation.disableSubmit(placeSaveButton);
+    placeFormValidation.disableSubmit();
   }
 });
 
@@ -50,13 +55,14 @@ function openPlaceOverlay() {
 
 const popupImg = new PopupWithImage(imgprofileOverlayEl, '.element');
 
-function handleCardClick() {
-  popupImg.open(imgName, imgPicture);
-  popupImg.setEventListeners();
+popupImg.setEventListeners();
+
+function handleCardClick(name, link) {
+  popupImg.open(name, link);
 }
 
-function getViewCard(items, selector, handlelick) {
-  const card = new Card(items, selector, handlelick);
+function getViewCard(items, selector, handleCard) {
+  const card = new Card(items, selector, handleCard);
   const cardElement = card.getView();
   return cardElement;
 }
@@ -70,16 +76,6 @@ const setCard = new Section({
 }, elementsTemplate);
 
 setCard.renderItems();
-
-function createNewCard(evt) {
-  evt.preventDefault();
-  getViewCard({ name: placeName.value, link: placeUrl.value }, formSelector, handleCardClick);
-  setCard.addItem(getViewCard({ name: placeName.value, link: placeUrl.value }, formSelector, handleCardClick));
-  placeName.value = '';
-  placeUrl.value = '';
-}
-
-placeprofileOverlayEl.addEventListener('submit', createNewCard);
 
 placeOpenButton.addEventListener('click', openPlaceOverlay);
 
@@ -97,3 +93,4 @@ const profileFormValidation = new FormValidator(enableValidation, profileForm);
 
 placeFormValidation.enableValidationFunction();
 profileFormValidation.enableValidationFunction();
+//Конец Place(Типа попапа, только для добавления новых картинок

@@ -72,9 +72,9 @@ class FormValidator {
         }
     }
 
-    disableSubmit(button) {
-        button.classList.add('button_inactive');
-        button.disabled = true;
+    disableSubmit() {
+        this._buttonElement.classList.add('button_inactive');
+        this._buttonElement.disabled = true;
     }
 };
 

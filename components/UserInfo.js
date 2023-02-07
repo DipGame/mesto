@@ -12,7 +12,7 @@ export default class UserInfo {
     }
 
     setUserInfo(name, profession) {
-        this._userName.textContent = name;
-        this._userProfession.textContent = profession;
+        this._userName.textContent = name.value;
+        this._userProfession.textContent = profession.value;
     }
 }
