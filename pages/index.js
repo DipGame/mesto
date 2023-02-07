@@ -8,7 +8,11 @@ import {
   profileOverlayEl, initialCards, placeprofileOverlayEl, imgprofileOverlayEl, profileForm, avatarName, avatarProf, avatarOpenButton, popupSaveButton, profile, profileName, profileProf,
   elementsTemplate, formSelector, placeForm, placeName, placeUrl, placeOpenButton, placeSaveButton, imgName, imgPicture
 } from "../utils/constants.js";
+<<<<<<< HEAD
 // import "./index.css";
+=======
+import "./index.css";
+>>>>>>> d456035806381302dcd82340f5cc244c95ac870d
 
 const popupProfSubmit = new PopupWithForm(profileOverlayEl, {
   submitForm: () => {
