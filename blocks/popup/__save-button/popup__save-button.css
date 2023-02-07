@@ -9,6 +9,7 @@
     font-weight: 400;
     font-size: 18px;
     line-height: 22px;
+    display: block;
 }
 
 .popup__save-button:hover {
@@ -20,8 +21,9 @@
     .popup__save-button {
         width: 238px;
         height: 46px;
-        margin-top: 44px;
-        font-size: 14px;
-        line-height: 17px;
+        margin-top: auto;
+        margin-bottom: 20px;
+        padding: 0;
+        display: block;
     }
 }
