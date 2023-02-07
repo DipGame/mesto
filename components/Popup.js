@@ -16,18 +16,8 @@ export default class Popup {
 
     _handleCloseEsc(evt) {
         if (evt.key === 'Escape') {
-            this._elementDom.classList.remove('overlay_open');
+            this.close();
         }
-
-        this._elementDom.classList.remove('overlay_open');
-    }
-
-    _handleCloseEsc() {
-        document.addEventListener('keydown', (evt) => {
-            if (evt.key === 'Escape') {
-                this._elementDom.classList.remove('overlay_open');
-            }
-        })
     }
 
     _overlayListeners(event) {
