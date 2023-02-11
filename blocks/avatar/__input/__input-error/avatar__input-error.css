@@ -20,8 +20,3 @@
         margin-left: 4px;
     }
 }
-
-.avatar__input-error:last-of-type {
-    position: absolute;
-    top: 215px;
-}

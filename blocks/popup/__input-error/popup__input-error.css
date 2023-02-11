@@ -30,6 +30,6 @@
   .popup__input-error:nth-of-type(2) {
     position: absolute;
     top: 215px;
-    left: -8px
+    left: -8px;
   }
 }
