@@ -1,22 +1,23 @@
 import Popup from "./Popup.js";
+import { api } from "../pages/index.js";
 
 export default class PopupWithAsk extends Popup {
-    // constructor(elementDom, {handleYesButton}) {
-    //     super(elementDom);
-    //     // this._handleYesButton = handleYesButton;
-    // }
+    close() {
+        super.close();
+        this._elementDom.querySelector('.popup').reset();
+    }
 
-    // open(id) {
-    //     super.open();
-    //     this._elementDom.querySelector('.popup__save-button').addEventListener('click', this._handleYesButton(id));
-    // }
+
+    addEventListener(handler) {
+        this._handler = handler;
+        return this._handler;
+    }
 
     setEventListeners() {
-        super.setEventListeners();
-
-        this._elementDom.addEventListener('submit', (evt) => {
+        this._elementDom.querySelector('.popup').addEventListener('submit', (evt) => {
             evt.preventDefault();
-            this.close();
+            this._handler();
         })
+        super.setEventListeners();
     }
 }

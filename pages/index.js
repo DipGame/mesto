@@ -7,34 +7,37 @@ import UserInfo from "../components/UserInfo.js";
 import {
   profileOverlayEl, dddd, placeprofileOverlayEl, imgprofileOverlayEl, profileForm, avatarButton, avatarName, avatarProf, avatarOpenButton, popupSaveButton, profile, profileName, profileProf,
   elementsTemplate, formSelector, placeForm, placeName, placeUrl, placeOpenButton, placeSaveButton, imgName, imgPicture,
-  askOverlay, askForm, askYesButton, avatarOverlay, avatarForm, avatarUrl, elementLike
+  askOverlay, askForm, askYesButton, avatarOverlay, avatarForm, avatarUrl, elementLike, configApi, avatarButtonForm
 } from "../utils/constants.js";
 import PopupWithAsk from "../components/PopupWithAsk.js";
-import PopupWithAvatar from "../components/PopupWithAvatar.js";
 import Api from "../components/Api.js";
 import "./index.css";
 
-const configApi = {
-  url: "https://mesto.nomoreparties.co",
-  headers: {
-    authorization: '857bdf83-dc02-40c2-8f07-47f065018f5b',
-    'Content-Type': 'application/json'
-  },
-}
 
-const api = new Api(configApi);
+
+export const api = new Api(configApi);
 
 api.getUserInfo(profileName, profileProf, avatarButton);
 
+
+
 const avatarPopup = new PopupWithForm(avatarOverlay, {
-  submitForm: () => {
-    addBackgroundImg(avatarUrl);
-    loading(true, askYesButton)
-    api.createNewAvatar(avatarUrl)
-    .finally(() => {
-      loading(false, askYesButton);
+  submitForm: (el) => {
+    loading(true, avatarButtonForm);
+    userInfo.setUserInfo({
+      name: profileName.textContent,
+      about: profileProf.textContent,
+      avatar: el.avatarUrl
     });
+    api.createNewAvatar(el.avatarUrl)
+      .finally(() => {
+        loading(false, avatarButtonForm);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     avatarUrl.value = '';
+    avatarPopup.close();
   },
   disableSubmitButton: () => {
     avatarFormValidation.disableSubmit();
@@ -45,10 +48,6 @@ const avatarPopup = new PopupWithForm(avatarOverlay, {
 
 avatarPopup.setEventListeners();
 
-function addBackgroundImg(imgUrl) {
-  avatarButton.style.backgroundImage = `url(${imgUrl.value})`
-}
-
 function openAvatarPopup() {
   avatarPopup.open();
 }
@@ -56,13 +55,22 @@ function openAvatarPopup() {
 avatarButton.addEventListener('click', openAvatarPopup);
 
 const popupProfSubmit = new PopupWithForm(profileOverlayEl, {
-  submitForm: () => {
-    userInfo.setUserInfo(avatarName, avatarProf);
-    loading(true, popupSaveButton)
-    api.setUserInfo(profileName, profileProf)
-    .finally(() => {
-      loading(false, popupSaveButton);
-    })
+  submitForm: (el) => {
+    console.log(el)
+    userInfo.setUserInfo({
+      name: el.name,
+      about: el.profession,
+      avatar: `url${avatarButton}`
+    });
+    loading(true, popupSaveButton);
+    api.setUserInfo(el.name, el.profession)
+      .finally(() => {
+        loading(false, popupSaveButton);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    popupProfSubmit.close();
   },
   disableSubmitButton: () => {
     profileFormValidation.disableSubmit();
@@ -71,13 +79,13 @@ const popupProfSubmit = new PopupWithForm(profileOverlayEl, {
 
 const userInfo = new UserInfo({
   userName: profileName,
-  userProfession: profileProf
+  userProfession: profileProf,
+  userAvatar: avatarButton,
 })
 
 const openProfileOverlay = () => {
-  const profileInfo = userInfo.getUserInfo();
-  avatarName.value = profileInfo.name;
-  avatarProf.value = profileInfo.profession;
+  avatarName.value = profileName.name;
+  avatarProf.value = profileProf.profession;
   popupProfSubmit.open();
 }
 
@@ -86,15 +94,30 @@ avatarOpenButton.addEventListener('click', openProfileOverlay);
 popupProfSubmit.setEventListeners();
 
 const popupPlaceSubmit = new PopupWithForm(placeprofileOverlayEl, {
-  submitForm: () => {
-    setCard.addItem(getViewCard({ name: placeName.value, link: placeUrl.value, likes: "0", owner: '8dbbd03b548204150c9c45d0' }, formSelector, handleClick));
-    loading(true, placeSaveButton)
-    api.createNewCard(placeName, placeUrl)
+  submitForm: (el) => {
+    loading(true, placeSaveButton);
+    api.createNewCard(el.placeName, el.placeUrl)
+      .then((res) => {
+        console.log(res);
+        setCard.addItem(getViewCard({
+          name: res.name,
+          link: res.link,
+          likes: res.likes.length,
+          owner: res.owner._id
+        }, formSelector, handleClick));
+
+        popupPlaceSubmit.close();
+        formSelector.classList.add('.element__delete');
+      })
       .finally(() => {
         loading(false, placeSaveButton);
       })
+      .catch((error) => {
+        console.log(error);
+      });
     placeName.value = '';
     placeUrl.value = '';
+
   },
   disableSubmitButton: () => {
     placeFormValidation.disableSubmit();
@@ -115,22 +138,24 @@ function handleClick(name, link) {
   popupImg.open(name, link);
 }
 
-function handleDeleteYes(id) {
-
-}
-
 function getViewCard({ name, link, _id, likes, owner }, selector, handleCard) {
   const card = new Card({
     name,
     link,
-    handleDeleteCard: (id) => {
-      handleDeleteCardServer(id)
-    },
     handleLikeCardAddServer: (id) => {
       handleLikesPut(id)
     },
-    handleLikesDeleteCard: (id) => {
-      handleLikesDelete(id)
+    handleOpenPopupAsk: () => {
+      askPopup.open();
+      askPopup.setEventListeners();
+      askPopup.addEventListener(() => {
+        const id = card.getIdCard();
+        api.deleteCards(id)
+          .then(() => {
+            card.deleteCard();
+            askPopup.close();
+          })
+      })
     },
     _id,
     likes,
@@ -138,33 +163,12 @@ function getViewCard({ name, link, _id, likes, owner }, selector, handleCard) {
   }, selector,
     handleCard
   );
-  const cardElement = card.getView(askOverlay);
+  const cardElement = card.getView();
   return cardElement;
 }
 
-function handleDeleteCardServer(id) { //функция удаления карточки с сервера
-  api
-    .deleteCards(id)
-    .then((data) => {
-      console.log(data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-}
-
-const askPopup = new PopupWithAsk(
-  askOverlay)
-
+export const askPopup = new PopupWithAsk(askOverlay)
 askPopup.setEventListeners();
-
-function renderCards() {
-  api.getAllCards().then((data) => {
-    setCard.renderItems(data);
-  });
-}
-
-renderCards();
 
 function loading(isLoading, element) {
   if (isLoading) {
@@ -176,9 +180,9 @@ function loading(isLoading, element) {
 
 function handleLikesPut(id) { //функция лайка карточки на сервере
   api.likesAdd(id)
-  .then((data) => {
-    console.log(data);
-  })
+    .then((data) => {
+      console.log(data);
+    })
     .catch((error) => {
       console.log(error);
     });
@@ -186,19 +190,33 @@ function handleLikesPut(id) { //функция лайка карточки на 
 
 function handleLikesDelete(id) { //функция удаления лайка карточки на сервере
   api.likesDelete(id)
-  .then((data) => {
-    console.log(data);
-  })
+    .then((data) => {
+      console.log(data);
+    })
     .catch((error) => {
       console.log(error);
     });
 }
 
-
+Promise.all([api.getUserInfo(), api.getAllCards()])
+  .then(value => {
+    const user = value[0]
+    const card = value[1];
+    console.log(card)
+    userInfo.getUserInfo({
+      name: user.name,
+      about: user.about,
+      avatar: user.avatar,
+      _id: user._id
+    });
+    setCard.renderItems(card);
+  })
+  .catch(err => {
+    console.log(err);
+  });
 
 const setCard = new Section({
   renderer: (item) => {
-    getViewCard(item, formSelector, handleClick);
     setCard.setItem(getViewCard(item, formSelector, handleClick));
   }
 }, elementsTemplate);

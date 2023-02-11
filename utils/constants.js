@@ -53,9 +53,18 @@ export const imgName = imgprofileOverlayEl.querySelector('.img-form__title');
 export const imgPicture = imgprofileOverlayEl.querySelector('.img-form__picture');
 
 export const askOverlay = document.querySelector('.overlay_ask');
-export const askForm = askOverlay.querySelector('.askForm');
+export const askForm = askOverlay.querySelector('.popup');
 export const askYesButton = askOverlay.querySelector('.popup__save-button');
 
 export const avatarOverlay = document.querySelector('.overlay_avatar');
 export const avatarUrl = avatarOverlay.querySelector('input[name="avatarUrl"]');
 export const avatarForm = avatarOverlay.querySelector('.avatar');
+export const avatarButtonForm = avatarOverlay.querySelector('.popup__save-button');
+
+export const configApi = {
+    url: "https://mesto.nomoreparties.co",
+    headers: {
+      authorization: '857bdf83-dc02-40c2-8f07-47f065018f5b',
+      'Content-Type': 'application/json'
+    },
+  }

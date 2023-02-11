@@ -4,29 +4,28 @@ export default class Api {
         this._headers = headers;
     }
 
+    _checkResponse() {
+        return (response) => {
+            if (response.ok) {
+                return response.json()
+            }
+            return Promise.reject(new Error('Что-то пошло не так....'))
+        }
+    }
+
     getAllCards() {
         return fetch(`${this._url}/v1/cohort-58/cards`, {
             headers: this._headers
         })
-            .then((response) => {
-                if (response.ok) {
-                    return response.json()
-                }
-                return Promise.reject(new Error('Что-то пошло не так....'))
-            })
+            .then(this._checkResponse())
     }
 
-    getUserInfo(nameUser, profUser, avatarUser) {
+    getUserInfo() {
         return fetch(`${this._url}/v1/cohort-58/users/me`, {
             headers: this._headers
         })
-            .then(res => res.json())
-            .then((result) => {
-                nameUser.textContent = result.name;
-                profUser.textContent = result.about;
-                avatarUser.style.backgroundImage = `url(${result.avatar})`;
-            })
-            
+            .then(this._checkResponse())
+
     }
 
     createNewCard(nameImg, linkImg) {
@@ -34,34 +33,23 @@ export default class Api {
             headers: this._headers,
             method: 'POST',
             body: JSON.stringify({
-                name: nameImg.value,
-                link: linkImg.value
+                name: nameImg,
+                link: linkImg
             })
         })
-            .then((response) => {
-                if (response.ok) {
-                    return response.json()
-                }
-            })
+            .then(this._checkResponse())
     }
 
-    setUserInfo(userName, userProf) {
+    setUserInfo(nameUser, aboutUser) {
         return fetch(`${this._url}/v1/cohort-58/users/me`, {
             headers: this._headers,
             method: 'PATCH',
             body: JSON.stringify({
-                name: userName.textContent,
-                about: userProf.textContent
+                name: nameUser,
+                about: aboutUser
             })
         })
-            .then((response) => {
-                if (response.ok) {
-                    return response.json()
-                }
-            })
-            .then((result) => {
-                console.log(result)
-            });
+            .then(this._checkResponse())
     }
 
     createNewAvatar(url) {
@@ -69,17 +57,10 @@ export default class Api {
             headers: this._headers,
             method: 'PATCH',
             body: JSON.stringify({
-                avatar: url.value,
+                avatar: url,
             })
         })
-            .then((response) => {
-                if (response.ok) {
-                    return response.json()
-                }
-            })
-            .then((result) => {
-                console.log(result)
-            });
+            .then(this._checkResponse())
     }
 
     deleteCards(id) {
@@ -87,11 +68,7 @@ export default class Api {
             headers: this._headers,
             method: 'DELETE',
         })
-            .then((response) => {
-                if (response.ok) {
-                    return response.json()
-                }
-            })
+            .then(this._checkResponse())
     }
 
     likesAdd(id) {
@@ -99,22 +76,14 @@ export default class Api {
             headers: this._headers,
             method: 'PUT',
         })
-        .then((response) => {
-            if (response.ok) {
-                return response.json()
-            }
-        })
+            .then(this._checkResponse())
     }
-    
+
     likesDelete(id) {
         return fetch(`${this._url}/v1/cohort-58/cards/${id}/likes`, {
             headers: this._headers,
             method: 'DELETE',
         })
-        .then((response) => {
-            if (response.ok) {
-                return response.json()
-            }
-        })
+            .then(this._checkResponse())
     }
 }
