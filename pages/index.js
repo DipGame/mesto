@@ -12,7 +12,7 @@ import {
 import PopupWithAsk from "../components/PopupWithAsk.js";
 import PopupWithAvatar from "../components/PopupWithAvatar.js";
 import Api from "../components/Api.js";
-// import "./index.css";
+import "./index.css";
 
 const configApi = {
   url: "https://mesto.nomoreparties.co",
