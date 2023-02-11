@@ -1,4 +1,4 @@
-export const initialCards = [
+export const dddd = [
     {
         name: 'Архыз',
         link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
@@ -32,10 +32,13 @@ export const profileForm = profileOverlayEl.querySelector('.profileForm')
 export const avatarName = profileOverlayEl.querySelector('input[name="name"]');
 export const avatarProf = profileOverlayEl.querySelector('input[name="profession"]');
 export const avatarOpenButton = document.querySelector('.profile__edit-button');
-export const popupSaveButton = document.querySelector('.popup__save-button');
+export const popupSaveButton = profileOverlayEl.querySelector('.popup__save-button');
 export const profile = document.querySelector('.profile');
+export const avatarButton = profile.querySelector('.profile__avatar')
 export const profileName = profile.querySelector(".profile__name");
 export const profileProf = profile.querySelector(".profile__profession");
+
+export const elementLike = document.querySelector(".element__number");
 
 export const elementsTemplate = document.querySelector('.elements');
 export const formSelector = "#placeCardTemplate";
@@ -48,3 +51,11 @@ export const placeSaveButton = placeprofileOverlayEl.querySelector('.place__add-
 
 export const imgName = imgprofileOverlayEl.querySelector('.img-form__title');
 export const imgPicture = imgprofileOverlayEl.querySelector('.img-form__picture');
+
+export const askOverlay = document.querySelector('.overlay_ask');
+export const askForm = askOverlay.querySelector('.askForm');
+export const askYesButton = askOverlay.querySelector('.popup__save-button');
+
+export const avatarOverlay = document.querySelector('.overlay_avatar');
+export const avatarUrl = avatarOverlay.querySelector('input[name="avatarUrl"]');
+export const avatarForm = avatarOverlay.querySelector('.avatar');
