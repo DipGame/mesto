@@ -65,7 +65,8 @@ class Card {
     }
 
     _checkUserId() {
-        if (this._owner != this._userId) {
+        if (this._owner._id != this._userId) {
+            console.log(this._owner._id);
             this._newCard.querySelector('.element__delete').remove();
         }
     }
@@ -79,7 +80,7 @@ class Card {
         this._likeButton = this._newCard.querySelector('.element__like');
         this._likeButton.addEventListener('click', () => this._handleLikeCard());
 
-        this._checkUserId();
+        this._checkUserId()
         if (this._checkUserLikeId() === true) {
             this._likeButton.classList.add('element__like_active');
         }

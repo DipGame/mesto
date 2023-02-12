@@ -119,16 +119,13 @@ const popupPlaceSubmit = new PopupWithForm(placeprofileOverlayEl, {
     api.createNewCard(el.placeName, el.placeUrl)
       .then((res) => {
         console.log(res);
-        // userInfo.setUserInfo({
-        //   _id: user._id
-        // });
         setCard.addItem(getViewCard({
           name: res.name,
           link: res.link,
-          likes: res.likes.length,
-          userId: res.owner._id
+          likes: '',
+          owner: res.owner,
+          userId: userIdInfo,
         }, formSelector, handleClick));
-
         popupPlaceSubmit.close();
       })
       .finally(() => {
@@ -157,7 +154,9 @@ function handleClick(name, link) {
   popupImg.open(name, link);
 }
 
-function getViewCard({ name, link, _id, likes, owner, userId }, selector, handleCard) {
+
+
+function getViewCard({ name, link, _id, likes, owner, }, selector, handleCard) {
   const card = new Card({
     name,
     link,
@@ -180,7 +179,7 @@ function getViewCard({ name, link, _id, likes, owner, userId }, selector, handle
     },
     _id,
     likes,
-    owner: userInfo.getUserInfo()._id,
+    owner,
     userId: userIdInfo,
   }, selector,
     handleCard
@@ -188,6 +187,7 @@ function getViewCard({ name, link, _id, likes, owner, userId }, selector, handle
   const cardElement = card.getView();
   return cardElement;
 }
+
 
 
 export const askPopup = new PopupWithAsk(askOverlay)
