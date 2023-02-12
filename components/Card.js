@@ -1,8 +1,7 @@
-import { askPopup } from "../pages/index.js";
 import { api } from "../pages/index.js";
 
 class Card {
-    constructor({ name, link, handleOpenPopupAsk, _id, likes, owner }, selector, handleClick) {
+    constructor({ name, link, handleOpenPopupAsk, _id, likes, userId, owner }, selector, handleClick) {
         this._name = name;
         this._link = link;
         this._handleOpenPopupAsk = handleOpenPopupAsk;
@@ -11,6 +10,7 @@ class Card {
         this._id = _id;
         this._likes = likes;
         this._owner = owner;
+        this._userId = userId;
     }
 
     _getTemplateCard() {
@@ -32,17 +32,22 @@ class Card {
                 .then((res) => {
                     console.log(res.likes.length);
                     this._cardLike();
-                    this._likesNumber.textContent = res.likes.length
-
+                    this._likesNumber.textContent = res.likes.length;
                 })
+                .catch((error) => {
+                    console.log(error);
+                });
         } else {
             api.likesAdd(this._id)
                 .then((res) => {
                     console.log(res.likes.length);
                     this._cardLike();
                     this._likesNumber.textContent = res.likes.length
+                    console.log('лайк поставлен')
                 })
-            console.log('лайк поставлен')
+                .catch((error) => {
+                    console.log(error);
+                });
         }
     }
 
@@ -52,7 +57,7 @@ class Card {
             const value = this._likes[key];
             return value._id;
         })
-        return result.includes(this._owner);
+        return result.includes(this._userId);
     }
 
     getIdCard() {
@@ -60,7 +65,7 @@ class Card {
     }
 
     _checkUserId() {
-        if (this._owner != '8dbbd03b548204150c9c45d0') {
+        if (this._owner != this._userId) {
             this._newCard.querySelector('.element__delete').remove();
         }
     }
@@ -68,9 +73,6 @@ class Card {
     _setEventListeners() {
         const deleteCard = this._newCard.querySelector('.element__delete');
         deleteCard.addEventListener('click', () => this._handleOpenPopupAsk())
-
-        askPopup.setEventListeners(this._id, this._newCard);
-
 
         this._likesNumber = this._newCard.querySelector('.element__number');
         this._likesNumber.textContent = this._likes.length;

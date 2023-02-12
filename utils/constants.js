@@ -68,3 +68,11 @@ export const configApi = {
       'Content-Type': 'application/json'
     },
   }
+
+  export const enableValidation = {
+    inputSelector: '.popup__input',
+    submitButtonSelector: '.popup__button',
+    inactiveButtonClass: 'button_inactive',
+    inputErrorClass: 'form__input_type_error',
+    errorClass: 'popup__input-error_active'
+  };
