@@ -63,24 +63,24 @@ export default class Api {
             .then(this._checkResponse())
     }
 
+    changeLikeCard(id, idCard) {
+        if (idCard === true) {
+            return fetch(`${this._url}/v1/cohort-58/cards/${id}/likes`, {
+                headers: this._headers,
+                method: 'DELETE',
+            })
+                .then(this._checkResponse())
+        } else {
+            return fetch(`${this._url}/v1/cohort-58/cards/${id}/likes`, {
+                headers: this._headers,
+                method: 'PUT',
+            })
+                .then(this._checkResponse())
+        }
+    }
+
     deleteCards(id) {
         return fetch(`${this._url}/v1/cohort-58/cards/${id}`, {
-            headers: this._headers,
-            method: 'DELETE',
-        })
-            .then(this._checkResponse())
-    }
-
-    likesAdd(id) {
-        return fetch(`${this._url}/v1/cohort-58/cards/${id}/likes`, {
-            headers: this._headers,
-            method: 'PUT',
-        })
-            .then(this._checkResponse())
-    }
-
-    likesDelete(id) {
-        return fetch(`${this._url}/v1/cohort-58/cards/${id}/likes`, {
             headers: this._headers,
             method: 'DELETE',
         })

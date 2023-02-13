@@ -1,16 +1,16 @@
-import { api } from "../pages/index.js";
-
 class Card {
-    constructor({ name, link, handleOpenPopupAsk, _id, likes, userId, owner }, selector, handleClick) {
-        this._name = name;
-        this._link = link;
+    constructor(data, { handleOpenPopupAsk, addDeleteLikeCard, check, idUser }, selector, handleClick) {
+        this._name = data.name;
+        this._link = data.link;
         this._handleOpenPopupAsk = handleOpenPopupAsk;
         this._selector = selector;
+        this._addDeleteLikeCard = addDeleteLikeCard;
+        this._check = check;
         this._handleClick = handleClick;
-        this._id = _id;
-        this._likes = likes;
-        this._owner = owner;
-        this._userId = userId;
+        this._id = data._id;
+        this._idUser = idUser;
+        this._likes = data.likes;
+        this._owner = data.owner;
     }
 
     _getTemplateCard() {
@@ -26,47 +26,33 @@ class Card {
         this._likeButton.classList.toggle('element__like_active');
     }
 
-    _handleLikeCard() {
-        if (this._checkUserLikeId() === true) {
-            api.likesDelete(this._id)
-                .then((res) => {
-                    console.log(res.likes.length);
-                    this._cardLike();
-                    this._likesNumber.textContent = res.likes.length;
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
+    handleLikeCard(res) {
+        if (this.checkUserLikeId() === true) {
+            this._cardLike();
+            this._likesNumber.textContent = res.likes.length;
+            this._likes = res.likes;
         } else {
-            api.likesAdd(this._id)
-                .then((res) => {
-                    console.log(res.likes.length);
-                    this._cardLike();
-                    this._likesNumber.textContent = res.likes.length
-                    console.log('лайк поставлен')
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
+            this._cardLike();
+            this._likesNumber.textContent = res.likes.length
+            this._likes = res.likes;
         }
     }
 
-    _checkUserLikeId() {
+    checkUserLikeId() {
         const array = Object.keys(this._likes);
         const result = array.map((key) => {
             const value = this._likes[key];
             return value._id;
         })
-        return result.includes(this._userId);
+        return result.includes(this._idUser);
     }
 
     getIdCard() {
-        return this._id
+        return this._id;
     }
 
     _checkUserId() {
-        if (this._owner._id != this._userId) {
-            console.log(this._owner._id);
+        if (this._owner._id != this._idUser) {
             this._newCard.querySelector('.element__delete').remove();
         }
     }
@@ -78,10 +64,10 @@ class Card {
         this._likesNumber = this._newCard.querySelector('.element__number');
         this._likesNumber.textContent = this._likes.length;
         this._likeButton = this._newCard.querySelector('.element__like');
-        this._likeButton.addEventListener('click', () => this._handleLikeCard());
+        this._likeButton.addEventListener('click', () => this._addDeleteLikeCard());
 
         this._checkUserId()
-        if (this._checkUserLikeId() === true) {
+        if (this.checkUserLikeId() === true) {
             this._likeButton.classList.add('element__like_active');
         }
 

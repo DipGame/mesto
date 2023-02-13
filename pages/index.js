@@ -30,9 +30,7 @@ Promise.all([api.getUserInfo(), api.getAllCards()])
   .then(value => {
     const user = value[0];
     userIdInfo = user._id;
-    console.log(userIdInfo);
     const card = value[1];
-    console.log(card);
     userInfo.setUserInfo({
       name: user.name,
       about: user.about,
@@ -79,14 +77,15 @@ avatarButton.addEventListener('click', openAvatarPopup);
 
 const popupProfSubmit = new PopupWithForm(profileOverlayEl, {
   submitForm: (el) => {
-    console.log(el)
-    userInfo.setUserInfo({
-      name: el.name,
-      about: el.profession,
-      avatar: `url${avatarButton}`
-    });
     loading(true, popupSaveButton);
     api.setUserInfo(el.name, el.profession)
+      .then(() => {
+        userInfo.setUserInfo({
+          name: el.name,
+          about: el.profession,
+          avatar: `url${avatarButton}`
+        });
+      })
       .finally(() => {
         loading(false, popupSaveButton);
       })
@@ -99,8 +98,6 @@ const popupProfSubmit = new PopupWithForm(profileOverlayEl, {
     profileFormValidation.disableSubmit();
   }
 });
-
-
 
 const openProfileOverlay = () => {
   const infoObject = userInfo.getUserInfo();
@@ -118,14 +115,7 @@ const popupPlaceSubmit = new PopupWithForm(placeprofileOverlayEl, {
     loading(true, placeSaveButton);
     api.createNewCard(el.placeName, el.placeUrl)
       .then((res) => {
-        console.log(res);
-        setCard.addItem(getViewCard({
-          name: res.name,
-          link: res.link,
-          likes: '',
-          owner: res.owner,
-          userId: userIdInfo,
-        }, formSelector, handleClick));
+        setCard.addItem(getViewCard(res, formSelector, handleClick));
         popupPlaceSubmit.close();
       })
       .finally(() => {
@@ -156,39 +146,41 @@ function handleClick(name, link) {
 
 
 
-function getViewCard({ name, link, _id, likes, owner, }, selector, handleCard) {
-  const card = new Card({
-    name,
-    link,
-    handleLikeCardAddServer: (id) => {
-      handleLikesPut(id)
-    },
-    handleOpenPopupAsk: () => {
-      askPopup.open();
-      askPopup.addEventListener(() => {
-        const id = card.getIdCard();
-        api.deleteCards(id)
-          .then(() => {
-            card.deleteCard();
-            askPopup.close();
+function getViewCard(data, selector, handleCard) {
+  const card = new Card(
+    data,
+    {
+      handleOpenPopupAsk: () => {
+        askPopup.open();
+        askPopup.addEventListener(() => {
+          const id = card.getIdCard();
+          api.deleteCards(id)
+            .then(() => {
+              card.deleteCard();
+              askPopup.close();
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        })
+      },
+      addDeleteLikeCard: () => {
+        api.changeLikeCard(card.getIdCard(), card.checkUserLikeId())
+          .then((res) => {
+            card.handleLikeCard(res)
           })
           .catch((error) => {
             console.log(error);
           });
-      })
+      },
+      idUser: userIdInfo
     },
-    _id,
-    likes,
-    owner,
-    userId: userIdInfo,
-  }, selector,
+    selector,
     handleCard
   );
   const cardElement = card.getView();
   return cardElement;
 }
-
-
 
 export const askPopup = new PopupWithAsk(askOverlay)
 askPopup.setEventListeners();
@@ -201,18 +193,6 @@ function loading(isLoading, element) {
   }
 }
 
-
-
-function handleLikesPut(id) { //функция лайка карточки на сервере
-  api.likesAdd(id)
-    .then((data) => {
-      console.log(data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-}
-
 const setCard = new Section({
   renderer: (item) => {
     setCard.setItem(getViewCard(item, formSelector, handleClick));
@@ -220,9 +200,8 @@ const setCard = new Section({
 }, elementsTemplate);
 
 
+
 placeOpenButton.addEventListener('click', openPlaceOverlay);
-
-
 
 const placeFormValidation = new FormValidator(enableValidation, placeForm);
 
@@ -234,5 +213,3 @@ const avatarFormValidation = new FormValidator(enableValidation, avatarForm);
 avatarFormValidation.enableValidationFunction();
 placeFormValidation.enableValidationFunction();
 profileFormValidation.enableValidationFunction();
-//Конец Place(Типа попапа, только для добавления новых картинок
-
